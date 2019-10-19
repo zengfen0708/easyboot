@@ -3,16 +3,15 @@ package com.zf.easyboot.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
-import com.zf.easyboot.modules.system.entity.DictDetailEntity;
 import com.zf.easyboot.modules.system.entity.JobEntity;
 import com.zf.easyboot.modules.system.mapper.JobMapper;
 import com.zf.easyboot.modules.system.service.DeptService;
 import com.zf.easyboot.modules.system.service.JobService;
 import com.zf.easyboot.modules.system.vo.JobVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

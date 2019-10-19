@@ -2,7 +2,6 @@ package com.zf.easyboot.modules.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zf.easyboot.modules.system.entity.RoleEntity;
-import com.zf.easyboot.modules.system.vo.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

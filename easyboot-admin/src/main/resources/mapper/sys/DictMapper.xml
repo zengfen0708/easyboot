@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zf.easyboot.modules.system.mapper.DictMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zf.easyboot.modules.system.entity.DictEntity" id="dictMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="remark" column="remark"/>
+        <result property="status" column="status"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <select id="queryList" resultMap="dictMap">
+        select a.id,
+        a.name,
+        a.remark,
+        a.status,
+        a.deleted,
+        a.create_time,
+        a.update_time
+        from sys_dict  a where a.deleted=0
+        <if test=" params.value!=null and params.value!='' and  params.type=='name' ">
+            and a.name like concat('%',#{params.value},'%')
+        </if>
+        <if test=" params.value!=null and params.value!='' and  params.type=='remark'">
+            and a.remark like concat('%',#{params.value},'%')
+        </if>
+        ORDER BY a.create_time
+        limit #{startPage},#{pageSize}
+    </select>
+
+    <select id="queryListTotal" resultType="Integer">
+        select count(1) from  sys_dict a  where a.deleted=0
+        <if test=" params.value!=null and params.value!='' and  params.type=='name' ">
+            and a.name like concat('%',#{params.value},'%')
+        </if>
+        <if test=" params.value!=null and params.value!='' and  params.type=='remark'">
+            and a.remark like concat('%',#{params.value},'%')
+        </if>
+    </select>
+</mapper>

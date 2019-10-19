@@ -1,7 +1,7 @@
 package com.zf.easyboot.modules.system.vo;
 
-import lombok.Data;
 import com.zf.easyboot.modules.system.entity.UserEntity;
+import lombok.Data;
 
 /**
  * @author 疯信子

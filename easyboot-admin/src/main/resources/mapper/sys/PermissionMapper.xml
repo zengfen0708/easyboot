@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zf.easyboot.modules.system.mapper.PermissionMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zf.easyboot.modules.system.entity.PermissionEntity" id="permissionMap">
+        <result property="id" column="id"/>
+        <result property="alias" column="alias"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+
+    <select id="queryAllList" resultMap="permissionMap">
+        select   a.id,a.alias,a.name,
+        a.parent_id,a.deleted,a.create_time
+        from sys_permission  a where a.deleted=0
+        <if test="params.aliasName!=null and params.aliasName!='' ">
+            and a.alias like concat('%',#{params.aliasName},'%')
+        </if>
+        order by a.id
+    </select>
+
+    <select id="selectByRolesIdToPermission" resultType="String">
+        select  name  from  sys_permission per
+        left join sys_role_permission  role on( role.per_id=per.id)
+        where per.deleted=0
+        <if test="roleIds!=null and roleIds!=''">
+            and  role.role_id in (${roleIds} )
+        </if>
+    </select>
+
+    <select id="findByRolesIdPermission" resultMap="permissionMap">
+           select   a.id,a.alias,a.name,
+        a.parent_id,a.deleted,a.create_time
+        from sys_permission  a
+        left join sys_role_permission  role on( role.per_id=a.id)
+        where a.deleted=0
+        <if test="roleIds!=null and roleIds!=''">
+            and  role.role_id in (${roleIds} )
+        </if>
+    </select>
+
+    <select id="queryByPermissionIds"  resultType="Long">
+        select id  from sys_permission  a where  a.deleted=0 and (  id=#{id} or parent_id=#{id} )
+    </select>
+    <update id="updateSonPermissionId">
+         update sys_permission set deleted=1   where
+        id in  (${ids} ) or parent_id in (${ids} )
+    </update>
+</mapper>

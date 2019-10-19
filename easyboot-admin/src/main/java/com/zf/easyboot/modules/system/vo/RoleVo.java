@@ -1,11 +1,10 @@
 package com.zf.easyboot.modules.system.vo;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
 import com.zf.easyboot.modules.system.entity.MenuEntity;
 import com.zf.easyboot.modules.system.entity.PermissionEntity;
 import com.zf.easyboot.modules.system.entity.RoleEntity;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.util.List;
 

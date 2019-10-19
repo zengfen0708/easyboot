@@ -69,7 +69,6 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
-                //.globalOperationParameters(parameters)
                 .securityContexts(Lists.newArrayList(securityContext()))
                 .securitySchemes(Lists.<SecurityScheme>newArrayList(apiKey()))
                 .globalResponseMessage(RequestMethod.GET, messageList)

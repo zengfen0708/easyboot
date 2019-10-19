@@ -1,17 +1,16 @@
 package com.zf.easyboot.modules.system.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.annotation.SysLog;
 import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
 import com.zf.easyboot.common.utils.PageUtils;
-import com.zf.easyboot.modules.system.entity.DeptEntity;
 import com.zf.easyboot.modules.system.entity.PermissionEntity;
 import com.zf.easyboot.modules.system.service.PermissionService;
-import com.zf.easyboot.modules.system.vo.TreeNodeAddVo;
 import com.zf.easyboot.modules.system.vo.PermissionSearchVo;
+import com.zf.easyboot.modules.system.vo.TreeNodeAddVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

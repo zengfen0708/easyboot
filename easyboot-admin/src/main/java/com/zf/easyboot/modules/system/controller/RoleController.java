@@ -1,19 +1,17 @@
 package com.zf.easyboot.modules.system.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.annotation.SysLog;
 import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
 import com.zf.easyboot.common.utils.PageUtils;
-import com.zf.easyboot.modules.system.entity.DictEntity;
 import com.zf.easyboot.modules.system.entity.RoleEntity;
 import com.zf.easyboot.modules.system.service.RoleService;
 import com.zf.easyboot.modules.system.vo.RoleMenuVo;
 import com.zf.easyboot.modules.system.vo.RoleSearchVo;
 import com.zf.easyboot.modules.system.vo.RoleVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

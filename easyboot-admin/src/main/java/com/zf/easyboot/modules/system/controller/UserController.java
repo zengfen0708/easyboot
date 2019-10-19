@@ -1,14 +1,13 @@
 package com.zf.easyboot.modules.system.controller;
 
-import com.baomidou.mybatisplus.extension.api.R;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
 import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.service.UserService;
 import com.zf.easyboot.modules.system.vo.UserSearchVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

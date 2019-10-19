@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zf.easyboot.modules.system.mapper.DeptMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zf.easyboot.modules.system.entity.DeptEntity" id="deptMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="status" column="status"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+
+    <select id="queryList" resultMap="deptMap">
+        select
+        a.id,
+        a.name,
+        a.parent_id,
+        a.status,
+        a.deleted,
+        a.create_time,
+        a.update_time
+        from sys_dept a where a.deleted=0
+        <if test="params.name != null and params.name !=''">
+            and a.name like concat('%',#{params.name},'%')
+        </if>
+        <if test="params.status!=null ">
+            and a.status=#{params.status}
+        </if>
+        ORDER BY id
+    </select>
+
+    <select id="queryListTotal" resultType="Integer">
+        select count(1) from sys_dept a where a.deleted=0
+        <if test="params.name != null and params.name !=''">
+            and a.name like concat('%',#{params.name},'%')
+        </if>
+        <if test="params.status!=null">
+            and a.status=#{params.status}
+        </if>
+    </select>
+
+    <update id="updateDeptId" >
+        update sys_dept set deleted=1   where
+        id in  (${ids} ) or parent_id in (${ids} )
+    </update>
+
+    <select id="queryByDeptIds" resultType="Long">
+        select id  from sys_dept  a where   a.deleted=0 and (  id=#{id} or parent_id=#{id} )
+    </select>
+
+    <select id="querySonDeptIds" resultType="Long">
+         select id  from sys_dept a  where   a.deleted=0 and ( id in (#{ids}) or parent_id in(#{ids}) )
+    </select>
+</mapper>

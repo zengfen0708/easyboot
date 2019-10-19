@@ -3,22 +3,24 @@ package com.zf.easyboot.modules.system.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
 import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
-import com.zf.easyboot.modules.system.entity.DeptEntity;
 import com.zf.easyboot.modules.system.entity.PermissionEntity;
 import com.zf.easyboot.modules.system.mapper.PermissionMapper;
 import com.zf.easyboot.modules.system.service.PermissionService;
 import com.zf.easyboot.modules.system.vo.TreeNodeAddVo;
 import com.zf.easyboot.modules.system.vo.TreeNodeVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 

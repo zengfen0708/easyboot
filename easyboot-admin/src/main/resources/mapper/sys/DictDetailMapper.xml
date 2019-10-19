@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zf.easyboot.modules.system.mapper.DictDetailMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zf.easyboot.modules.system.entity.DictDetailEntity" id="dictDetailMap">
+        <result property="id" column="id"/>
+        <result property="label" column="label"/>
+        <result property="value" column="value"/>
+        <result property="sort" column="sort"/>
+        <result property="dictId" column="dict_id"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <select id="queryList" resultMap="dictDetailMap">
+        select a.id,a.label,a.value,a.sort,a.dict_id,a.deleted,
+        a.create_time
+        from sys_dict_detail a
+        where a.deleted=0
+        <if test="params.dictName != null and params.dictName !=''">
+            and dict_id in ( select id from sys_dict c where c.deleted=0 and c.name=#{params.dictName} )
+        </if>
+        <if test="params.dictId!=null and params.dictId!=0">
+          and   a.dict_id=#{params.dictId}
+        </if>
+        <if test="params.label!=null and params.label!=''">
+            and    a.label like concat('%',#{params.label},'%')
+        </if>
+        ORDER BY a.create_time
+        limit #{startPage},#{pageSize}
+    </select>
+
+    <select id="queryListTotal" resultType="Integer">
+        select count(1) from  sys_dict_detail a where a.deleted=0
+        <if test="params.dictName != null and params.dictName !=''">
+            and dict_id in ( select id from sys_dict c where c.deleted=0 and c.name=#{params.dictName} )
+        </if>
+        <if test="params.dictId!=null and params.dictId!=0">
+           and  a.dict_id=#{params.dictId}
+        </if>
+        <if test="params.label!=null and params.label!=''">
+            and    a.label like concat('%',#{params.label},'%')
+        </if>
+
+    </select>
+
+
+    <select id="queryDictDetailsInfo" resultMap="dictDetailMap">
+        select a.id,a.label,a.value,a.sort,a.dict_id,a.deleted,
+        a.create_time
+        from sys_dict_detail a
+        where a.deleted=0
+        <if test="params.dictName != null and params.dictName !=''">
+            and dict_id in ( select id from sys_dict c where c.deleted=0 and c.name=#{params.dictName} )
+        </if>
+        order by sort
+    </select>
+
+
+    <update id="updateDetailId">
+          update sys_dict_detail set deleted=1   where
+         id =${ids}
+    </update>
+
+</mapper>

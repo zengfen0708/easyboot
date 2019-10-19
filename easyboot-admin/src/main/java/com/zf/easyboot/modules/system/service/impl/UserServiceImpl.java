@@ -1,7 +1,6 @@
 package com.zf.easyboot.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
@@ -9,6 +8,7 @@ import com.zf.easyboot.modules.system.entity.UserEntity;
 import com.zf.easyboot.modules.system.mapper.UserMapper;
 import com.zf.easyboot.modules.system.service.UserService;
 import com.zf.easyboot.modules.system.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

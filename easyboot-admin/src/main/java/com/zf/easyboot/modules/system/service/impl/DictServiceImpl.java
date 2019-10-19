@@ -2,7 +2,6 @@ package com.zf.easyboot.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
@@ -11,7 +10,7 @@ import com.zf.easyboot.modules.system.entity.DictEntity;
 import com.zf.easyboot.modules.system.mapper.DictMapper;
 import com.zf.easyboot.modules.system.service.DictDetailService;
 import com.zf.easyboot.modules.system.service.DictService;
-import com.zf.easyboot.modules.system.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

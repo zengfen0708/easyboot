@@ -14,7 +14,6 @@ import lombok.Data;
 public class UserSearchVo extends PageInfoVo {
 
 
-
     @ApiModelProperty(value = "用户名")
     private String username;
 }

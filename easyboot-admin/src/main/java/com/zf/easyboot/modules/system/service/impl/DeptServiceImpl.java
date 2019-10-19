@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
 import com.zf.easyboot.common.utils.ConverterConstant;
@@ -15,12 +14,14 @@ import com.zf.easyboot.modules.system.mapper.DeptMapper;
 import com.zf.easyboot.modules.system.service.DeptService;
 import com.zf.easyboot.modules.system.vo.TreeNodeAddVo;
 import com.zf.easyboot.modules.system.vo.TreeNodeVo;
-import com.zf.easyboot.modules.system.vo.TreeVo;
-import org.apache.ibatis.reflection.wrapper.BaseWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 

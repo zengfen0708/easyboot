@@ -1,8 +1,8 @@
 package com.zf.easyboot.modules.system.vo;
 
+import com.zf.easyboot.modules.system.entity.JobEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import com.zf.easyboot.modules.system.entity.JobEntity;
 
 /**
  * @author 疯信子
