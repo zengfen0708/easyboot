@@ -1,5 +1,10 @@
 ## easy-boot简介
 项目基于Spring Boot 2.1.8 、Spring Security、jwt、 Mybatis、MyBatis-Plus、 xxl-job 、redis、vue、vue-element-admin。防范xss攻击.权限控制采用 RBAC，支持一键生成前后端代码
+
+**开发文档**  [https://blog.csdn.net/str0708/article/category/9438521](https://blog.csdn.net/str0708/article/category/9438521)<br/>
+**后端账号密码** ```super/Super$123456```<br/>
+**druid账号密码** ```zfdruid/Zf$123456```
+
 ## 后端技术栈
 easy-boot需要Java 8环境，推荐使用IDEA作为开发工具
  1. Spring boot 
@@ -26,12 +31,7 @@ easy-boot需要Java 8环境，推荐使用IDEA作为开发工具
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191019195710462.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0cjA3MDg=,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191019195816906.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0cjA3MDg=,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191019200100812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0cjA3MDg=,size_16,color_FFFFFF,t_70)
-
 ## 反馈交流
-**开发文档**  [https://blog.csdn.net/str0708/article/category/9438521](https://blog.csdn.net/str0708/article/category/9438521)
-
-**账号密码** ```super/Super$123456```
-
-本人是第一次分享项目
+本人是第一次分享项目,欢迎各位大佬指点
 另外欢迎Pull Requests，和我们一起完善该项目！
 个人QQ 584095660
