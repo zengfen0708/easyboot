@@ -33,4 +33,4 @@ easyboot需要Java 8环境，推荐使用IDEA作为开发工具
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191019200100812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0cjA3MDg=,size_16,color_FFFFFF,t_70)
 ## 反馈交流
 本人是第一次分享项目,该项目还存在很多不足,欢迎各位大佬指点,Pull Requests，和我一起完善该项目！<br/>
-个人QQ 584095660
+QQ 群号：769191321
