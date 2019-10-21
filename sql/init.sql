@@ -319,3 +319,21 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('1', '1', '1', '2019-09-20 19:26:40', '2019-09-20 19:26:40');
 INSERT INTO `sys_user_role` VALUES ('2', '2', '2', '2019-09-20 23:06:05', '2019-09-20 23:06:05');
+
+
+CREATE TABLE `sys_log` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `username` varchar(255) DEFAULT NULL COMMENT '操作用户',
+  `description` varchar(255) DEFAULT NULL COMMENT '方法描述',
+  `exception_detail` text COMMENT '异常描述',
+  `method` varchar(255) DEFAULT NULL COMMENT '请求方法名',
+  `params` text COMMENT '请求参数',
+  `log_type` tinyint(1) DEFAULT '0' COMMENT '日志类型(0 系统日志 1 异常日志)',
+  `request_ip` varchar(255) DEFAULT NULL COMMENT '请求ip',
+  `time` bigint(20) NOT NULL COMMENT '执行时长(毫秒)',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '软删除标识(0 有效 1 已删除)',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统日志表';
+
