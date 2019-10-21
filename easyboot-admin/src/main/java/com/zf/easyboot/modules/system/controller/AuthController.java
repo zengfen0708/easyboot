@@ -3,6 +3,7 @@ package com.zf.easyboot.modules.system.controller;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.IoUtil;
 import com.alibaba.fastjson.JSON;
+import com.zf.easyboot.common.annotation.SysLog;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.enums.HttpStatus;
 import com.zf.easyboot.common.exception.BaseException;
@@ -68,7 +69,8 @@ public class AuthController {
      * 登录
      */
     @PostMapping("/login")
-    @ApiOperation(value = "获取jwt", notes = "获取jwt")
+    @ApiOperation(value = "用户登陆", notes = "用户登陆获取jwt")
+    @SysLog(value = "用户登陆")
     public ApiMessage<String> login(@RequestBody LoginRequestVo loginRequest) {
 
         String username = loginRequest.getUsername();
@@ -93,6 +95,7 @@ public class AuthController {
         final Authentication authentication = authenticationManager.authenticate(upToken);
 
 
+
         SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
         //是否保留
@@ -103,6 +106,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     @ApiOperation(value = "用户退出", notes = "清除jwt token 信息")
+    @SysLog(value = "用户退出")
     public ApiMessage logout(HttpServletRequest request) {
         try {
             // 设置JWT过期

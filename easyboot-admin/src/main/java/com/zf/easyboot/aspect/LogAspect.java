@@ -1,101 +1,109 @@
 package com.zf.easyboot.aspect;
 
+
+import com.zf.easyboot.common.annotation.SysLog;
 import com.zf.easyboot.common.enums.DateUnit;
-import com.zf.easyboot.common.utils.DateUtil;
-import com.zf.easyboot.common.utils.IPUtils;
-import eu.bitwalker.useragentutils.UserAgent;
+import com.zf.easyboot.common.enums.LogTypeEnum;
+import com.zf.easyboot.common.utils.*;
+import com.zf.easyboot.modules.system.entity.LogEntity;
+import com.zf.easyboot.security.utils.SecurityUtil;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.zf.easyboot.modules.system.service.LogService;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * 使用aop记录请求日志信息
+ * 记录手动需要记录的日志信息
  *
  * @author 疯信子
  * @version 1.0
- * @date 2019/9/17.
+ * @date 2019/10/21.
  */
 @Slf4j
 @Aspect
 @Component
 public class LogAspect {
 
-    private static final String START_TIME = "ZFREQUEST-START";
+
+    @Autowired
+    private LogService logService;
+
+    private static final String START_TIME = "ZFLogREQUEST-START";
 
     /**
-     * 切入点
+     * 配置切入点（只记录手动需要记录的日志)
      */
-    @Pointcut("execution(public * com.zf..controller.*.*(..))") //两个..代表所有子目录，最后括号里的两个..代表所有参数
+    @Pointcut("@annotation(com.zf.easyboot.common.annotation.SysLog)")
     public void logPointCut() {
+        // 该方法无方法体,主要为了让同类中其他方法使用此切入点
     }
 
 
     /**
-     * 前置操作
+     * 配置环绕通知,使用在方法logPointcut()上注册的切入点
      *
-     * @param point
+     * @param joinPoint join point for advice
      */
-    @Before("logPointCut()")
-    public void beforeLog(JoinPoint point) {
+    @Around("logPointCut()")
+    public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object result = null;
         HttpServletRequest request = getHttpServletRequest();
-        String header = request.getHeader("User-Agent");
-        UserAgent userAgent = UserAgent.parseUserAgentString(header);
-
-        log.info("【{}请求URL】:{}", request.getMethod(), request.getRequestURL());
-        log.info("【请求IP】:{}", IPUtils.getIpHost(request));
-        log.info("【请求类名】:{},【请求方法名】:{}",
-                point.getSignature().getDeclaringTypeName(),
-                point.getSignature().getName());
-
-        log.info("【浏览器类型】:{},【操作系统】:{}，" +
-                        "【原始User-Agent】:{}", userAgent.getBrowser().toString(),
-                userAgent.getOperatingSystem().toString(), header);
         //获取当前时间
         LocalDateTime startTime = LocalDateTime.now();
         request.setAttribute(START_TIME, startTime);
+
+        result = joinPoint.proceed();
+
+        //请求时间
+        long time = DateUtil.betweenTime(startTime, LocalDateTime.now(), DateUnit.Millis);
+
+        LogEntity logEntity = new LogEntity();
+        logEntity.setLogType(LogTypeEnum.SUSSESS.getCode());
+        logEntity.setTime(time);
+        logEntity.setRequestIp(IPUtils.getIpHost(request));
+
+        this.saveRequestLog(logEntity, joinPoint);
+
+        return result;
     }
 
-
     /**
-     * 后置操作
+     * 配置异常通知
+     *
+     * @param joinPoint join point for advice
+     * @param e         exception
      */
-    @AfterReturning("logPointCut()")
-    public void afterReturning() {
+    @AfterThrowing(pointcut = "logPointCut()", throwing = "e")
+    public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
         HttpServletRequest request = getHttpServletRequest();
 
         LocalDateTime startTime = (LocalDateTime) request.getAttribute(START_TIME);
-        //结束时间
+        //请求时间
         long time = DateUtil.betweenTime(startTime, LocalDateTime.now(), DateUnit.Millis);
 
-        log.info("【接口耗时】：{}毫秒", time);
+        LogEntity logEntity = new LogEntity();
+        logEntity.setLogType(LogTypeEnum.ERROR.getCode());
+        logEntity.setExceptionDetail(ThrowableUtil.getStackTrace(e));
+        logEntity.setRequestIp(IPUtils.getIpHost(request));
+        logEntity.setTime(time);
+
+        this.saveRequestLog(logEntity, (ProceedingJoinPoint) joinPoint);
+
     }
 
-
-    /**
-     * 环绕操作
-     *
-     * @param point 切入点
-     * @return 原方法返回值
-     * @throws Throwable 异常信息
-     */
-    @Around("logPointCut()")
-    public Object aroundLog(ProceedingJoinPoint point) throws Throwable {
-        Object result = point.proceed();
-
-        //如何有需求
-      /*  if (log.isInfoEnabled()) {
-            log.info("返回信息:{}", JSON.toJSONString(result));
-        }*/
-        return result;
-    }
 
     /**
      * 获取httpReuest请求
@@ -105,6 +113,30 @@ public class LogAspect {
     private HttpServletRequest getHttpServletRequest() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return Objects.requireNonNull(requestAttributes).getRequest();
+    }
+
+    /**
+     * 保存请求日志信息
+     *
+     * @param logEntity
+     */
+    private void saveRequestLog(LogEntity logEntity, ProceedingJoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        SysLog sysLog = method.getAnnotation(SysLog.class);
+
+        if (sysLog != null) {
+            logEntity.setDescription(sysLog.value());
+        }
+
+        logEntity.setUsername(SecurityUtil.getCurrentUsername());
+        // 方法路径
+        String methodName = methodSignature.getDeclaringTypeName() + "." + methodSignature.getName();
+        logEntity.setMethod(methodName);
+        String params = ConverterConstant.converterStr.convert(RequestMethodUtils.getParameter(method, joinPoint.getArgs()));
+        logEntity.setParams(params);
+        //保存请求日志
+        logService.save(logEntity);
     }
 
 }

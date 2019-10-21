@@ -53,6 +53,6 @@ public interface CommonConstant {
     /**
      * 匿名用户 用户名
      */
-    String ANONYMOUS_NAME = "匿名用户";
+    String ANONYMOUS_NAME = "未登陆用户";
 
 }

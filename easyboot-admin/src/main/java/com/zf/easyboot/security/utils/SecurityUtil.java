@@ -24,10 +24,15 @@ public class SecurityUtil {
      * @return 当前登录用户用户名
      */
     public  String getCurrentUsername() {
-        JwtUser currentUser = getCurrentUser();
-        return ObjectUtil.isNull(currentUser) ?
-                CommonConstant.ANONYMOUS_NAME :
-                currentUser.getUsername();
+        try {
+            JwtUser currentUser = getCurrentUser();
+            return ObjectUtil.isNull(currentUser) ?
+                    CommonConstant.ANONYMOUS_NAME :
+                    currentUser.getUsername();
+        }catch (Exception e){
+            return  null;
+        }
+
     }
 
     /**
