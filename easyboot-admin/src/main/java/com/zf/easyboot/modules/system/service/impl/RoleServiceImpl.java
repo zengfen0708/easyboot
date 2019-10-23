@@ -67,7 +67,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         List<RoleEntity> list = baseMapper.queryList(startPage, pageSize, params);
         Integer totalCount = baseMapper.queryListTotal(params);
 
-        List<RoleVo> result = list.stream().map(item -> initRoleInfo(item))
+        List<RoleVo> result = list.stream().map(item -> initRoleInfo(item,true))
                 .collect(Collectors.toList());
         PageUtils page = new PageUtils(result, totalCount, pageSize, currPage);
 
@@ -84,19 +84,34 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         item.setId(id);
 
 
-        return initRoleInfo(item);
+        return initRoleInfo(item,true);
     }
 
-    private RoleVo initRoleInfo(RoleEntity item) {
+    /**
+     * 获取全部角色
+     * @return
+     */
+    @Override
+    public List<RoleVo> queryRoleAll() {
+        List<RoleEntity> list = baseMapper.selectList(new QueryWrapper<RoleEntity>().eq("deleted",CommonConstant.DELETED));
+        List<RoleVo> result = list.stream().map(item -> initRoleInfo(item,false))
+                .collect(Collectors.toList());
+
+        return  result;
+    }
+
+    private RoleVo initRoleInfo(RoleEntity item,boolean status) {
         RoleVo roleVo = new RoleVo();
         BeanCopierUtils.copyProperties(item, roleVo);
 
-        String roleIds = ConverterConstant.converterStr.convert(roleVo.getId());
-        List<MenuEntity> menuList = menuMapper.findByRoleMenuTree(roleIds);
-        roleVo.setMenuList(menuList);
+        if(status) {
+            String roleIds = ConverterConstant.converterStr.convert(roleVo.getId());
+            List<MenuEntity> menuList = menuMapper.findByRoleMenuTree(roleIds);
+            roleVo.setMenuList(menuList);
 
-        List<PermissionEntity> permissionList = permissionMapper.findByRolesIdPermission(roleIds);
-        roleVo.setPermissionList(permissionList);
+            List<PermissionEntity> permissionList = permissionMapper.findByRolesIdPermission(roleIds);
+            roleVo.setPermissionList(permissionList);
+        }
 
         return roleVo;
     }

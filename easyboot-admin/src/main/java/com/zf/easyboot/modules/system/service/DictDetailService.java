@@ -3,6 +3,7 @@ package com.zf.easyboot.modules.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.entity.DictDetailEntity;
+import com.zf.easyboot.modules.system.vo.DictDetailVo;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public interface DictDetailService extends IService<DictDetailEntity> {
      */
     PageUtils queryList(Map<String,Object> params);
 
-    List<DictDetailEntity> queryDictDetailsInfo(Map<String,Object> params);
+    List<DictDetailVo> queryDictDetailsInfo(Map<String,Object> params);
 
     void deleteById(Long id);
 }

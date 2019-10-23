@@ -1,17 +1,21 @@
 package com.zf.easyboot.aspect;
 
+import com.zf.easyboot.common.annotation.SysLog;
 import com.zf.easyboot.common.enums.DateUnit;
-import com.zf.easyboot.common.utils.DateUtil;
-import com.zf.easyboot.common.utils.IPUtils;
-import com.zf.easyboot.common.utils.RequestMethodUtils;
+import com.zf.easyboot.common.enums.LogTypeEnum;
+import com.zf.easyboot.common.utils.*;
+import com.zf.easyboot.modules.system.entity.LogEntity;
+import com.zf.easyboot.modules.system.service.LogService;
 import com.zf.easyboot.security.utils.SecurityUtil;
 import eu.bitwalker.useragentutils.UserAgent;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -39,6 +43,9 @@ import java.util.Objects;
 public class WebLogAspect {
 
     private static final String START_TIME = "ZFREQUEST-START";
+
+    @Autowired
+    private LogService logService;
 
     /**
      * 切入点
@@ -71,7 +78,7 @@ public class WebLogAspect {
         log.info("【请求类名】:{},【请求方法名】:{}\n[请求参数]:{}",
                 point.getSignature().getDeclaringTypeName(),
                 point.getSignature().getName(),
-                RequestMethodUtils.getParameter(method,point.getArgs()));
+                RequestMethodUtils.getParameter(method, point.getArgs()));
 
 
         //获取当前时间
@@ -105,8 +112,7 @@ public class WebLogAspect {
     @Around("webLogPointCut()")
     public Object aroundLog(ProceedingJoinPoint point) throws Throwable {
         Object result = point.proceed();
-
-        //如何有需求
+        //如何有需求可以记录返回结果
       /*  if (log.isInfoEnabled()) {
             log.info("返回信息:{}", JSON.toJSONString(result));
         }*/
@@ -123,6 +129,47 @@ public class WebLogAspect {
         return Objects.requireNonNull(requestAttributes).getRequest();
     }
 
+    /**
+     * 配置异常通知
+     *
+     * @param joinPoint join point for advice
+     * @param e         exception
+     */
+    @AfterThrowing(pointcut = "webLogPointCut()", throwing = "e")
+    public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
+        HttpServletRequest request = getHttpServletRequest();
 
+        LocalDateTime startTime = (LocalDateTime) request.getAttribute(START_TIME);
+        //请求时间
+        long time = DateUtil.betweenTime(startTime, LocalDateTime.now(), DateUnit.Millis);
+
+        LogEntity logEntity = new LogEntity();
+        logEntity.setLogType(LogTypeEnum.ERROR.getCode());
+        logEntity.setExceptionDetail(ThrowableUtil.getStackTrace(e));
+        logEntity.setRequestIp(IPUtils.getIpHost(request));
+        logEntity.setTime(time);
+
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        if (method.isAnnotationPresent(SysLog.class)) {
+            //  说明已经添加了SysLog不需要再添加对应的处理逻辑
+            return;
+        }
+
+        if (method.isAnnotationPresent(ApiOperation.class)) {
+            ApiOperation log = method.getAnnotation(ApiOperation.class);
+            logEntity.setDescription(log.value());
+        }
+
+        logEntity.setUsername(SecurityUtil.getCurrentUsername());
+        // 方法路径
+        String methodName = methodSignature.getDeclaringTypeName() + "." + methodSignature.getName();
+        logEntity.setMethod(methodName);
+        String params = ConverterConstant.converterStr.convert(RequestMethodUtils.getParameter(method, joinPoint.getArgs()));
+        logEntity.setParams(params);
+        //保存请求日志
+        logService.saveLog(logEntity);
+
+    }
 
 }

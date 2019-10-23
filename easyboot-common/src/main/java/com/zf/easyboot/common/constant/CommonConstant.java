@@ -55,4 +55,10 @@ public interface CommonConstant {
      */
     String ANONYMOUS_NAME = "未登陆用户";
 
+
+    /**
+     * 生成验证码字数
+     */
+    Integer SENDCHARCODE=4;
+
 }

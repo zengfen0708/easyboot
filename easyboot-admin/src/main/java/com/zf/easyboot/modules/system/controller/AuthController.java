@@ -95,7 +95,6 @@ public class AuthController {
         final Authentication authentication = authenticationManager.authenticate(upToken);
 
 
-
         SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
         //是否保留
@@ -137,21 +136,13 @@ public class AuthController {
     /**
      * 获取验证码
      */
+    @ApiOperation(value = "获取验证码", notes = "生成验证码信息")
     @RequestMapping(value = "/authCode", method = RequestMethod.GET)
-    public ImgResult getCode(HttpServletResponse response) throws IOException {
-
+    public ImgResult getCode(HttpServletRequest  request) throws IOException {
         String uuid = idConfig.onlyId();
 
-        /*//生成文字验证码
-        String text = producer.createText();
-        //生成图片验证码
-        BufferedImage image = producer.createImage(text);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ImageIO.write(image, "jpg", stream);
-       */
-
         //生成随机字串
-        String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
+        String verifyCode = VerifyCodeUtils.generateVerifyCode(CommonConstant.SENDCHARCODE);
         //设置redis超时时间 10分钟
         //这个可能会发生恶意刷
         Long codeExpire = 60 * 10L;
@@ -165,7 +156,6 @@ public class AuthController {
         } finally {
             IoUtil.close(stream);
         }
-
 
     }
 }

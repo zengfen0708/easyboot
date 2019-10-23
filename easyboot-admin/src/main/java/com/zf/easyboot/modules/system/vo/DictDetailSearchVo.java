@@ -21,4 +21,6 @@ public class DictDetailSearchVo implements Serializable {
 
     @ApiModelProperty(value = "字典模糊搜索的值")
     private String label;
+
+
 }

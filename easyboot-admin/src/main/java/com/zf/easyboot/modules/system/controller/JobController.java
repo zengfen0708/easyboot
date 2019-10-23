@@ -1,6 +1,9 @@
 package com.zf.easyboot.modules.system.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Lists;
 import com.zf.easyboot.common.annotation.SysLog;
+import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
 import com.zf.easyboot.common.utils.PageUtils;
@@ -14,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +26,7 @@ import java.util.Map;
  * @date 2019/10/12.
  */
 @Slf4j
-@Api(value = "岗位信息",tags = "岗位信息")
+@Api(value = "岗位信息", tags = "岗位信息")
 @RestController
 @RequestMapping("/system/job")
 public class JobController {
@@ -30,6 +34,7 @@ public class JobController {
 
     @Resource
     private JobService jobService;
+
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','USERJOB_ALL','USERJOB_SELECT')")
@@ -41,6 +46,17 @@ public class JobController {
         return ApiMessage.ofSuccess(page);
     }
 
+
+    @RequestMapping(value = "/getAllJob", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyRole('SUPER','USERJOB_ALL','USERJOB_SELECT')")
+    @ApiOperation("根据部门id搜索对应的岗位")
+    public ApiMessage getAllJob(@RequestParam Long deptId) {
+        List<JobEntity> list = Lists.newArrayList();
+        if (deptId != null) {
+            list = jobService.list(new QueryWrapper<JobEntity>().eq("deleted", CommonConstant.DELETED).eq("dept_id", deptId));
+        }
+        return ApiMessage.ofSuccess(list);
+    }
 
 
     /**

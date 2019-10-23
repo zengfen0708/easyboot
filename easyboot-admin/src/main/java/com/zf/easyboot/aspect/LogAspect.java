@@ -136,7 +136,7 @@ public class LogAspect {
         String params = ConverterConstant.converterStr.convert(RequestMethodUtils.getParameter(method, joinPoint.getArgs()));
         logEntity.setParams(params);
         //保存请求日志
-        logService.save(logEntity);
+        logService.saveLog(logEntity);
     }
 
 }

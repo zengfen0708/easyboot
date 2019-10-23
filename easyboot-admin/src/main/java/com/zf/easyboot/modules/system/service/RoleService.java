@@ -6,6 +6,7 @@ import com.zf.easyboot.modules.system.entity.RoleEntity;
 import com.zf.easyboot.modules.system.vo.RoleMenuVo;
 import com.zf.easyboot.modules.system.vo.RoleVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +24,6 @@ public interface RoleService extends IService<RoleEntity> {
     void saveRoleInfo(RoleMenuVo roleMenuVo);
 
     RoleVo findByRoleIdInfo(Long id);
+
+    List<RoleVo> queryRoleAll();
 }

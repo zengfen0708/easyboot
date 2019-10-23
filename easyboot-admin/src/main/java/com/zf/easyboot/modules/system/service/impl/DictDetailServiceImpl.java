@@ -7,6 +7,7 @@ import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.entity.DictDetailEntity;
 import com.zf.easyboot.modules.system.mapper.DictDetailMapper;
 import com.zf.easyboot.modules.system.service.DictDetailService;
+import com.zf.easyboot.modules.system.vo.DictDetailVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +50,8 @@ public class DictDetailServiceImpl extends ServiceImpl<DictDetailMapper, DictDet
     }
 
     @Override
-    public List<DictDetailEntity> queryDictDetailsInfo(Map<String, Object> params) {
-        List<DictDetailEntity> data = baseMapper.queryDictDetailsInfo(params);
+    public List<DictDetailVo> queryDictDetailsInfo(Map<String, Object> params) {
+        List<DictDetailVo> data = baseMapper.queryDictDetailsInfo(params);
 
         return data;
     }

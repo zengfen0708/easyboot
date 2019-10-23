@@ -2,6 +2,7 @@ package com.zf.easyboot.modules.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zf.easyboot.modules.system.entity.DictDetailEntity;
+import com.zf.easyboot.modules.system.vo.DictDetailVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface DictDetailMapper extends BaseMapper<DictDetailEntity> {
 
     Integer queryListTotal(@Param("params") Map<String, Object> params);
 
-    List<DictDetailEntity> queryDictDetailsInfo(@Param("params") Map<String, Object> params);
+    List<DictDetailVo> queryDictDetailsInfo(@Param("params") Map<String, Object> params);
 
 
     int updateDetailId(@Param("ids") Long id);

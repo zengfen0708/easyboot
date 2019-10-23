@@ -1,5 +1,8 @@
 package com.zf.easyboot.modules.system.controller;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.zf.easyboot.common.annotation.SysLog;
 import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
@@ -7,15 +10,21 @@ import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.entity.DictDetailEntity;
 import com.zf.easyboot.modules.system.service.DictDetailService;
 import com.zf.easyboot.modules.system.vo.DictDetailSearchVo;
+import com.zf.easyboot.modules.system.vo.DictDetailVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 字典详情
@@ -48,11 +57,49 @@ public class DictDetailController {
     @ApiOperation("获取字典详情信息")
     public ApiMessage queryDictDetailsInfo(@RequestBody DictDetailSearchVo dictDetailSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(dictDetailSearchVo);
-        List<DictDetailEntity> data = dictDetailService.queryDictDetailsInfo(params);
+        List<DictDetailVo> data = dictDetailService.queryDictDetailsInfo(params);
 
         return ApiMessage.ofSuccess(data);
     }
 
+    @RequestMapping(value = "/queryDictDetailsMap", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('SUPER','DICT_ALL')")
+    @ApiOperation("根据字典获取对应的map集合")
+    public ApiMessage queryDictDetailsMap(@RequestBody DictDetailSearchVo dictDetailSearchVo) {
+        String dictName = dictDetailSearchVo.getDictName();
+        //将请求数据分隔
+        List<String> dictNameList = Splitter.on(",").omitEmptyStrings().splitToList(dictName);
+        if (StringUtils.isNotBlank(dictName)) {
+            dictDetailSearchVo.setDictName(null);
+        }
+        Map<String, Object> params = BeanCopierUtils.object2Map(dictDetailSearchVo);
+
+        params.put("dictNameList", dictNameList);
+        List<DictDetailVo> list = dictDetailService.queryDictDetailsInfo(params);
+
+        if (CollectionUtils.isEmpty(list) && !CollectionUtils.isEmpty(dictNameList)) {
+
+            Map<String, List<DictDetailVo>> data = dictNameList.parallelStream().map(item -> initDictDetailInfo(item))
+                    .collect(Collectors.groupingBy(DictDetailVo::getDictName));
+
+            return ApiMessage.ofSuccess(data);
+        }
+        Map<String, List<DictDetailVo>> data = list.parallelStream().collect(Collectors.groupingBy(DictDetailVo::getDictName));
+
+        return ApiMessage.ofSuccess(data);
+    }
+
+    /**
+     *  初始化字典详情信息
+     * @param key
+     * @return
+     */
+    private DictDetailVo initDictDetailInfo(String key) {
+        DictDetailVo dictDetailVo = new DictDetailVo();
+        dictDetailVo.setDictName(key);
+
+        return dictDetailVo;
+    }
 
     /**
      * 保存

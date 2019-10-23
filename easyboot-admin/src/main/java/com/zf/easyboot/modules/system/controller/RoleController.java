@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,8 +26,8 @@ import java.util.Map;
  */
 @Slf4j
 @Api(value = "角色管理", tags = "角色管理")
-@RestController
 @RequestMapping("/system/role")
+@RestController
 public class RoleController {
 
     @Resource
@@ -34,13 +35,21 @@ public class RoleController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','ROLES_SELECT')")
-    @ApiOperation("获取角色全部信息")
+    @ApiOperation("分页获取全部角色信息")
     public ApiMessage list(@RequestBody RoleSearchVo roleSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(roleSearchVo);
         PageUtils page = roleService.queryList(params);
 
         return ApiMessage.ofSuccess(page);
 
+    }
+
+    @RequestMapping(value = "/getAllRole", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyRole('SUPER','ROLES_SELECT')")
+    @ApiOperation("不分页获取全部角色信息")
+    public  ApiMessage getAllRole(){
+        List<RoleVo> roleVos = roleService.queryRoleAll();
+        return ApiMessage.ofSuccess(roleVos);
     }
 
 
