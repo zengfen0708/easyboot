@@ -6,6 +6,7 @@ import lombok.ToString;
 
 /**
  * 设置前端返回状态码
+ *
  * @author 疯信子
  * @version 1.0
  * @date 2019/9/18.
@@ -88,9 +89,13 @@ public enum HttpStatus {
      * 验证码不能为空！
      */
     REQUEST_NOT_CODE(10004, "验证码不能为空"),
-
     CODE_ERROR(10005, "验证码过期或者输入不正确"),
-    ACCOUNT_ERROR(10006,"账号已停用,请联系管理员");
+    ACCOUNT_ERROR(10006, "账号已停用,请联系管理员"),
+
+    /**
+     * 文件上传失败
+     */
+    FILE_ERROR(10007, "文件上传失败");
 
 
     /**

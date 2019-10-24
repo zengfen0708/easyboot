@@ -2,6 +2,7 @@ package com.zf.easyboot.modules.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zf.easyboot.modules.system.entity.DictEntity;
+import com.zf.easyboot.modules.system.excel.DictExcelEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,4 +22,13 @@ public interface DictMapper extends BaseMapper<DictEntity> {
                                @Param("params") Map<String, Object> params);
 
     Integer queryListTotal(@Param("params") Map<String, Object> params);
+
+    /**
+     * 导出excel
+     * @param params
+     * @return
+     */
+    List<DictExcelEntity> exportExcel(@Param("params") Map<String,Object> params);
+
+
 }

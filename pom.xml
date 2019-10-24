@@ -25,7 +25,7 @@
         <!-- 解析 UserAgent 信息-->
         <user.agent.version>1.20</user.agent.version>
         <!--hutool工具类-->
-        <hutool.version>4.6.6</hutool.version>
+        <hutool.version>5.0.3</hutool.version>
         <guava.version>28.1-jre</guava.version>
         <mysql.version>8.0.13</mysql.version>
         <knife4j.version>1.9.6</knife4j.version>
@@ -34,6 +34,10 @@
         <skipTests>true</skipTests>
         <easyboot.project.version>1.0-SNAPSHOT</easyboot.project.version>
 
+
+        <!-- easypoi -->
+       <!-- <easypoi.version>1.0-SNAPSHOT</easypoi.version>-->
+        <easypoi.version>4.1.0</easypoi.version>
     </properties>
 
     <parent>
@@ -130,6 +134,11 @@
                     <artifactId>guava</artifactId>
                     <groupId>com.google.guava</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>javassist</artifactId>
+                    <groupId>org.javassist</groupId>
+                </exclusion>
+
             </exclusions>
         </dependency>
 
@@ -154,6 +163,7 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!-- hutool工具类-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -165,6 +175,35 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
+
+        <!-- easypoi-->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>${easypoi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>${easypoi.version}</version>
+        </dependency>
+
+       <!-- <dependency>
+            <artifactId>pingan-easypoi-annotation</artifactId>
+            <groupId>com.pingan.easypoi</groupId>
+            <version>${easypoi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pingan.easypoi</groupId>
+            <artifactId>pingan-easypoi-base</artifactId>
+            <version>${easypoi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
 
     </dependencies>
 

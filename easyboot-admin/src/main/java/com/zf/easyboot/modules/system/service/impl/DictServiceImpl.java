@@ -3,10 +3,12 @@ package com.zf.easyboot.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zf.easyboot.common.constant.CommonConstant;
+import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.entity.DictDetailEntity;
 import com.zf.easyboot.modules.system.entity.DictEntity;
+import com.zf.easyboot.modules.system.excel.DictExcelEntity;
 import com.zf.easyboot.modules.system.mapper.DictMapper;
 import com.zf.easyboot.modules.system.service.DictDetailService;
 import com.zf.easyboot.modules.system.service.DictService;
@@ -56,8 +58,33 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
         baseMapper.update(dictEntity, new QueryWrapper<DictEntity>().eq("id", id));
 
         //然后输出字典详情表
-        DictDetailEntity  dictDetailEntity=new DictDetailEntity();
+        DictDetailEntity dictDetailEntity = new DictDetailEntity();
         dictDetailEntity.setDeleted(CommonConstant.INVALIDDELETE);
-        dictDetailService.update(dictDetailEntity,new QueryWrapper<DictDetailEntity>().eq("dict_id",id));
+        dictDetailService.update(dictDetailEntity, new QueryWrapper<DictDetailEntity>().eq("dict_id", id));
+    }
+
+    /**
+     * 导出excel数据
+     *
+     * @param params
+     * @return
+     */
+    @Override
+    public List<DictExcelEntity> exportExcel(Map<String, Object> params) {
+
+        return baseMapper.exportExcel(params);
+    }
+
+    /**
+     * 导入excel数据
+     * @param filePath
+     * @return
+     */
+    @Override
+    public ApiMessage importExcelData(String filePath)
+    {
+
+
+        return null;
     }
 }

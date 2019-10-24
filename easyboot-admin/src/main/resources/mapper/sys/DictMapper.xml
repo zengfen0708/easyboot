@@ -43,4 +43,17 @@
             and a.remark like concat('%',#{params.value},'%')
         </if>
     </select>
+
+    <select id="exportExcel" resultType="com.zf.easyboot.modules.system.excel.DictExcelEntity">
+        select a.id,
+        a.name,
+        a.remark,
+        a.status,
+        a.deleted,
+        a.create_time,
+        a.update_time
+        from sys_dict  a
+        where a.deleted=0
+
+    </select>
 </mapper>
