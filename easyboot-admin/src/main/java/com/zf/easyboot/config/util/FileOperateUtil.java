@@ -48,19 +48,18 @@ public class FileOperateUtil {
         String path = fileConfig.getUploadPath() + File.separator + username;
         //创建目录
         FileUtil.mkdir(path);
+        String filePath = path + File.separator + fileName;
+
         try {
-            IoUtil.write(new FileOutputStream(path + fileName), true, file.getBytes());
+            IoUtil.write(new FileOutputStream(filePath), true, file.getBytes());
         } catch (IOException e) {
             throw new BaseException(HttpStatus.FILE_ERROR);
         }
-
-        String filePath = path + File.separator + fileName;
         File processFile = FileUtil.file(filePath);
 
         if (!processFile.isFile()) {
             throw new BaseException(HttpStatus.FILE_ERROR);
         }
-
         if (log.isInfoEnabled()) {
             log.info("当前用户:{}上传的文件路径:{}文件类型:{}", username, filePath,FileTypeUtil.getType(processFile));
         }

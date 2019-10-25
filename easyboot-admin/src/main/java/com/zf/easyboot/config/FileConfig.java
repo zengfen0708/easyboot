@@ -18,6 +18,6 @@ public class FileConfig {
     //上传路径
     private String uploadPath;
 
-    // 服务器需要保存文件路径
+    // 服务器下载文件路径
     private String downPath;
 }

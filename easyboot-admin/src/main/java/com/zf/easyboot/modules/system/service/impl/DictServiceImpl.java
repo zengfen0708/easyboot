@@ -1,9 +1,15 @@
 package com.zf.easyboot.modules.system.service.impl;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.zf.easyboot.common.constant.CommonConstant;
+import com.zf.easyboot.common.enums.HttpStatus;
 import com.zf.easyboot.common.utils.ApiMessage;
+import com.zf.easyboot.common.utils.BeanCopierUtils;
 import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.entity.DictDetailEntity;
@@ -15,10 +21,13 @@ import com.zf.easyboot.modules.system.service.DictService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -77,14 +86,37 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
 
     /**
      * 导入excel数据
+     *
      * @param filePath
      * @return
      */
     @Override
-    public ApiMessage importExcelData(String filePath)
-    {
+    public ApiMessage importExcelData(String filePath) {
+        ImportParams params = new ImportParams();
+        params.setHeadRows(CommonConstant.EXCELHEADROWS);//设置读取的开始行
 
+        //读取excel文件
+        List<DictExcelEntity> excelList = ExcelImportUtil.importExcel(
+                new File(filePath), DictExcelEntity.class, params);
 
-        return null;
+        if (!CollectionUtils.isEmpty(excelList)) {
+            List<DictEntity> list = excelList.parallelStream()
+                    .map(item -> initDictEntiry(item)).collect(Collectors.toList());
+            super.saveBatch(list, CommonConstant.SQLBATCHNUM);
+            return ApiMessage.ofSuccess();
+        }
+
+        return ApiMessage.putHttpStatus(HttpStatus.FILE_IMPORT_ERROR);
+    }
+
+    /**
+     * 初始化数据
+     * @param dictExcelEntity
+     * @return
+     */
+    private DictEntity initDictEntiry(DictExcelEntity dictExcelEntity) {
+        DictEntity dictEntity = new DictEntity();
+        BeanCopierUtils.copyProperties(dictExcelEntity, dictEntity);
+        return dictEntity;
     }
 }

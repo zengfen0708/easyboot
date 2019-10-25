@@ -1,11 +1,8 @@
 package com.zf.easyboot.common.utils;
+
 import cn.hutool.core.util.ArrayUtil;
 import com.google.common.collect.Maps;
-
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.beans.BeanCopier;
 
 import java.lang.reflect.Field;

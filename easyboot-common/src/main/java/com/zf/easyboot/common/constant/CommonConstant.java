@@ -61,4 +61,16 @@ public interface CommonConstant {
      */
     Integer SENDCHARCODE=4;
 
+
+    /**
+     * 批量提交的sql语句
+     */
+    Integer SQLBATCHNUM=1000;
+
+
+    /**
+     * 读取excel开始行数
+     */
+    Integer EXCELHEADROWS=1;
+
 }

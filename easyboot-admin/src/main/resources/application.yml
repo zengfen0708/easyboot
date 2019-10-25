@@ -65,6 +65,8 @@ zfcustom:
   config:
     ignoreConfig:
       # 需要过滤的请求，不限方法
+      options:
+        - "/**"
       pattern:
         - "/**/*.html"
         - "/**/*.css"
@@ -79,5 +81,6 @@ zfcustom:
         - "/auth/login"
         - "/auth/authCode"
         - "/druid/**"
+
 
 

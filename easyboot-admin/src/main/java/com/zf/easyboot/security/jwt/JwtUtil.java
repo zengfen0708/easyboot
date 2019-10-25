@@ -177,6 +177,7 @@ public class JwtUtil {
      * @return jwt信息
      */
     public String resolveToken(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
         String bearerToken = request.getHeader(jwtConfig.getHeader());
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);

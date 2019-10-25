@@ -2,11 +2,11 @@ package com.zf.easyboot.common.exception.handler;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.enums.HttpStatus;
 import com.zf.easyboot.common.exception.BaseException;
 import com.zf.easyboot.common.exception.SecurityException;
 import com.zf.easyboot.common.utils.ApiMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -90,7 +90,6 @@ public class GlobalExceptionHandler {
             log.error("【全局异常拦截】BadCredentialsException: 错误信息 {}", e.getMessage());
             return ApiMessage.putHttpStatus(HttpStatus.USER_DISABLED);
         } else if (e instanceof AccessDeniedException) {
-            AccessDeniedException error = (AccessDeniedException) e;
             log.error("【全局异常拦截】DataManagerException:  异常信息 {}",
                     e.getMessage());
             return ApiMessage.putHttpStatus(HttpStatus.ACCESS_DENIED);

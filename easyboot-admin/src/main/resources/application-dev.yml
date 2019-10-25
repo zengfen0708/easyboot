@@ -3,6 +3,11 @@ swagger:
   enabled: true
 # DataSource Config
 publickey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJGmUZXnsjrydLxau3rSwx2TGceM84bBtw9M3Z5W0bgJWDCa6VVFwNU96b0hZ4MFGbhMdGMTqo6Nj6vMc71eSgMCAwEAAQ==
+other:
+  #文件上传目录地址
+  uploadPath: E:\uploadLogs
+  #文件下载服务器地址
+  downPath: E:\logs
 spring:
   datasource:
     druid:

@@ -2,7 +2,6 @@ package com.zf.easyboot.common.xss;
 
 
 import cn.hutool.core.io.IoUtil;
-import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 

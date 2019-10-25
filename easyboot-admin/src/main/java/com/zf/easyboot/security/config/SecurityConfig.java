@@ -1,6 +1,5 @@
 package com.zf.easyboot.security.config;
 
-import com.zf.easyboot.config.BaseConfig;
 import com.zf.easyboot.security.jwt.JwtAuthenticationFilter;
 import com.zf.easyboot.security.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,9 +146,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 忽略 PATCH
         customConfig.getIgnoreConfig().getPatch().forEach(url -> and.ignoring().antMatchers(HttpMethod.PATCH, url));
 
-
         // 忽略 OPTIONS
-        customConfig.getIgnoreConfig().getOptions().forEach(url -> and.ignoring().antMatchers(HttpMethod.OPTIONS, url));
+         customConfig.getIgnoreConfig().getOptions().forEach(url -> and.ignoring().antMatchers(HttpMethod.OPTIONS, url));
 
         // 忽略 TRACE
         customConfig.getIgnoreConfig().getTrace().forEach(url -> and.ignoring().antMatchers(HttpMethod.TRACE, url));

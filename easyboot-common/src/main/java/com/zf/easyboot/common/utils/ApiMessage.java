@@ -1,17 +1,15 @@
 package com.zf.easyboot.common.utils;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zf.easyboot.common.enums.HttpStatus;
+import com.zf.easyboot.common.exception.BaseException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.zf.easyboot.common.constant.CommonConstant;
-import com.zf.easyboot.common.enums.HttpStatus;
-import com.zf.easyboot.common.exception.BaseException;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 /**
  * @author 疯信子

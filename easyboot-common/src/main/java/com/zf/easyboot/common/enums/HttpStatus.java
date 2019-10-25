@@ -95,7 +95,8 @@ public enum HttpStatus {
     /**
      * 文件上传失败
      */
-    FILE_ERROR(10007, "文件上传失败");
+    FILE_ERROR(10007, "文件上传失败"),
+    FILE_IMPORT_ERROR(10008,"上传的excel数据为空,请核实");
 
 
     /**

@@ -55,7 +55,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         if (log.isDebugEnabled()) {
-            log.debug("\"Authenticating user '{}'",
+            log.debug("Authenticating user '{}'",
                     username);
         }
 
