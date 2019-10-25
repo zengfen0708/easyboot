@@ -188,22 +188,7 @@
             <version>${easypoi.version}</version>
         </dependency>
 
-       <!-- <dependency>
-            <artifactId>pingan-easypoi-annotation</artifactId>
-            <groupId>com.pingan.easypoi</groupId>
-            <version>${easypoi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.pingan.easypoi</groupId>
-            <artifactId>pingan-easypoi-base</artifactId>
-            <version>${easypoi.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>fastjson</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
+
 
     </dependencies>
 
