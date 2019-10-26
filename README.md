@@ -25,6 +25,7 @@ easyboot需要Java 8环境，推荐使用IDEA作为开发工具
 |  | 后端代码 | 前端代码 |
 |--|--|--|
 | github|[https://github.com/zengfen0708/easy-boot](https://github.com/zengfen0708/easy-boot) | [https://github.com/zengfen0708/easy-boot-web](https://github.com/zengfen0708/easy-boot-web) |
+| 码云|[https://gitee.com/zf0708/easyboot](https://gitee.com/zf0708/easyboot) | [https://gitee.com/zf0708/easy-boot-web](https://gitee.com/zf0708/easy-boot-web) |
 ## 系统预览
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191019195441812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0cjA3MDg=,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191019195649366.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0cjA3MDg=,size_16,color_FFFFFF,t_70)
