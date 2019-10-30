@@ -15,15 +15,17 @@
     </resultMap>
 
 
-
     <select id="queryList" resultMap="roleMap">
         select a.id,
-            a.role_name,
-            a.role_desc,
-            a.create_time
+        a.role_name,
+        a.role_desc,
+        a.create_time
         from sys_role a where a.deleted=0
         <if test="params.roleName !=null and params.roleName!=''">
             and a.role_name like concat('%',#{params.roleName},'%')
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
         </if>
         ORDER BY a.create_time
         limit #{startPage},#{pageSize}
@@ -34,6 +36,26 @@
         <if test="params.roleName !=null and params.roleName!=''">
             and a.role_name like concat('%',#{params.roleName},'%')
         </if>
+    </select>
+
+    <select id="getRoleById" resultMap="roleMap">
+        SELECT
+        a.id,
+        a.role_name,
+        a.role_desc,
+        a.create_time
+        FROM
+        sys_role a
+        WHERE
+        a.deleted=0 and
+        a.id IN (
+        SELECT
+        role_id
+        FROM
+        sys_user_role
+        WHERE
+        user_id=#{userId}
+        )
     </select>
 
 </mapper>

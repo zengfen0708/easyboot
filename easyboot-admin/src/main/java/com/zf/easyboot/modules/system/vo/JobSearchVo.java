@@ -1,5 +1,6 @@
 package com.zf.easyboot.modules.system.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -9,4 +10,11 @@ import lombok.Data;
  */
 @Data
 public class JobSearchVo extends PageInfoVo {
+
+    @ApiModelProperty(value = "岗位名称")
+    private String jobName;
+
+
+    @ApiModelProperty(value = "岗位状态")
+    private Integer status;
 }

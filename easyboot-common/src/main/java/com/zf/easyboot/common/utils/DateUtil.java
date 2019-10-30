@@ -37,7 +37,7 @@ public class DateUtil {
      * @param dateStr
      * @return
      */
-    public  Date parseSync8(String dateStr, String pattern) {
+    public Date parseSync8(String dateStr, String pattern) {
         if (StringUtils.isBlank(pattern)) {
             pattern = DATE_PATTERN;
         }
@@ -51,7 +51,7 @@ public class DateUtil {
     }
 
 
-    public  String formatSync8(Date date, String pattern) {
+    public String formatSync8(Date date, String pattern) {
         if (StringUtils.isBlank(pattern)) {
             pattern = DATE_PATTERN;
         }
@@ -71,7 +71,7 @@ public class DateUtil {
      * @param pattern
      * @return 默认返回时间格式（yyyy-MM-dd) LocalDate
      */
-    public  LocalDate parseLocalDate(String dateStr, String pattern) {
+    public LocalDate parseLocalDate(String dateStr, String pattern) {
         if (StringUtils.isBlank(dateStr)) {
             return null;
         }
@@ -92,7 +92,7 @@ public class DateUtil {
      * @param pattern
      * @return 默认返回时间格式（yyyy-MM-dd HH:mm:ss) LocalDateTime
      */
-    public  LocalDateTime parseLocalDateTime(String dateStr, String pattern) {
+    public LocalDateTime parseLocalDateTime(String dateStr, String pattern) {
         if (StringUtils.isBlank(dateStr)) {
             return null;
         }
@@ -113,7 +113,7 @@ public class DateUtil {
      * @param localDate
      * @return
      */
-    public  Date localDateConvert(LocalDate localDate) {
+    public Date localDateConvert(LocalDate localDate) {
 
         LocalDate currentDate = Optional.ofNullable(localDate).orElse(LocalDate.now());
 
@@ -130,7 +130,7 @@ public class DateUtil {
      * @param localDateTime
      * @return
      */
-    public  Date localDateTimeConvert(LocalDateTime localDateTime) {
+    public Date localDateTimeConvert(LocalDateTime localDateTime) {
         //如果设置为空,择获取当前时间
         LocalDateTime currentDate = Optional.ofNullable(localDateTime)
                 .orElse(LocalDateTime.now());
@@ -149,7 +149,7 @@ public class DateUtil {
      * @param pattern
      * @return
      */
-    public  String formatLocalDate(LocalDate localDate, String pattern) {
+    public String formatLocalDate(LocalDate localDate, String pattern) {
         //如果设置为空,择获取当前时间
         LocalDate currentDate = Optional.ofNullable(localDate)
                 .orElse(LocalDate.now());
@@ -169,7 +169,7 @@ public class DateUtil {
      * @param pattern
      * @return
      */
-    public  String formatLocalDateTime(LocalDateTime localDateTime, String pattern) {
+    public String formatLocalDateTime(LocalDateTime localDateTime, String pattern) {
         //如果设置为空,择获取当前时间
         LocalDateTime currentDate = Optional.ofNullable(localDateTime)
                 .orElse(LocalDateTime.now());
@@ -189,7 +189,7 @@ public class DateUtil {
      * @param endTime
      * @return
      */
-    public  Long betweenTime(LocalDateTime startTime, LocalDateTime endTime, DateUnit dateUnit) {
+    public Long betweenTime(LocalDateTime startTime, LocalDateTime endTime, DateUnit dateUnit) {
 
         DateUnit currentUnit = Optional.ofNullable(dateUnit).orElse(DateUnit.Millis);
         Long time = null;
@@ -222,7 +222,7 @@ public class DateUtil {
      * @param endTime
      * @return
      */
-    public  Long between(LocalDate startTime, LocalDate endTime, DateUnit dateUnit) {
+    public Long between(LocalDate startTime, LocalDate endTime, DateUnit dateUnit) {
 
         DateUnit currentUnit = Optional.ofNullable(dateUnit).orElse(DateUnit.Millis);
         Long time = null;
@@ -244,7 +244,7 @@ public class DateUtil {
      * @param localDate
      * @return
      */
-    public  LocalDate lastDayLocalDate(LocalDate localDate) {
+    public LocalDate lastDayLocalDate(LocalDate localDate) {
         LocalDate today = Optional.ofNullable(localDate).orElse(LocalDate.now());
 
         return today.with(TemporalAdjusters.lastDayOfMonth());
@@ -257,7 +257,7 @@ public class DateUtil {
      * @param localDate
      * @return
      */
-    public  LocalDateTime lastDayLocalDateTime(LocalDateTime localDate) {
+    public LocalDateTime lastDayLocalDateTime(LocalDateTime localDate) {
         LocalDateTime today = Optional.ofNullable(localDate).orElse(LocalDateTime.now());
 
         return today.with(TemporalAdjusters.lastDayOfMonth());
@@ -266,11 +266,12 @@ public class DateUtil {
 
     /**
      * 获取对比时间
+     *
      * @param localDate
      * @param day
      * @return
      */
-    public   LocalDate plusDays(LocalDate localDate,Integer day){
+    public LocalDate plusDays(LocalDate localDate, Integer day) {
         LocalDate today = Optional.ofNullable(localDate).orElse(LocalDate.now());
 
         return today.plusDays(day);
@@ -278,13 +279,16 @@ public class DateUtil {
 
     /**
      * 加当前时间
+     *
      * @param localDate
      * @param day
      * @return
      */
-    public   LocalDateTime plusDaysTime(LocalDateTime localDate,Integer day){
+    public LocalDateTime plusDaysTime(LocalDateTime localDate, Integer day) {
         LocalDateTime today = Optional.ofNullable(localDate).orElse(LocalDateTime.now());
 
         return today.plusDays(day);
     }
+
+
 }

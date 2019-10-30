@@ -16,4 +16,8 @@ public class UserSearchVo extends PageInfoVo {
 
     @ApiModelProperty(value = "用户名")
     private String username;
+    @ApiModelProperty(value = "查询类型")
+    private String type;
+    @ApiModelProperty(value = "状态(启用-1，禁用-0) ")
+    private Integer enabled;
 }

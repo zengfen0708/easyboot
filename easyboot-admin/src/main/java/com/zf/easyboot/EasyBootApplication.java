@@ -41,7 +41,6 @@ public class EasyBootApplication implements CommandLineRunner {
 
 
     /**
-     *
      * 默认启动该项目
      *
      * @param args

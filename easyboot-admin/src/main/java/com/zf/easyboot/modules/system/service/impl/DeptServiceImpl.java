@@ -34,13 +34,9 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, DeptEntity> impleme
     public PageUtils queryList(Map<String, Object> params) {
         Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
         Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
-        if (currPage == null) {
-            currPage = CommonConstant.DEFAULT_PAGE;
-        }
+        currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
+        pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
 
-        if (pageSize == null) {
-            pageSize = CommonConstant.DEFAULT_PAGE_SIZE;
-        }
         List<DeptEntity> list = Optional.ofNullable(baseMapper.queryList(params))
                 .orElse(Lists.newArrayList());
         Integer totalCount = list.size();
@@ -74,7 +70,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, DeptEntity> impleme
         TreeNodeVo treeNodeVo = initTreeInfo(deptEntity);
 
         List<TreeNodeVo> treeList = list.stream()
-                .filter(item -> Objects.equals(item.getParentId(),deptEntity.getId()))
+                .filter(item -> Objects.equals(item.getParentId(), deptEntity.getId()))
                 .map(item -> converTreeNode(item, list))
                 .collect(Collectors.toList());
 

@@ -14,8 +14,8 @@ import lombok.ToString;
 @ToString
 public enum LogTypeEnum {
 
-    SUSSESS(0,"请求成功"),
-    ERROR(1,"异常日志");
+    SUSSESS(0, "请求成功"),
+    ERROR(1, "异常日志");
 
     private Integer code;
     private String name;

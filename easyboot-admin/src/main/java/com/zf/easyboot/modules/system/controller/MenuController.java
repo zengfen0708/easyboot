@@ -42,9 +42,10 @@ public class MenuController {
      *
      * @return
      */
+    @SysLog(value = "初始化导航菜单")
     @RequestMapping(value = "/build", method = RequestMethod.GET)
-    @ApiOperation(value = "初始化导航菜单",
-            notes = "初始化导航菜单")
+    @PreAuthorize("hasAnyRole('SUPER','MENU_ALL')")
+    @ApiOperation(value = "初始化导航菜单",notes = "初始化导航菜单")
     public ApiMessage buildMenus() {
 
         //获取当前系统的用户
@@ -62,8 +63,9 @@ public class MenuController {
      *
      * @return
      */
+    @SysLog(value = "返回全部的菜单")
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('SUPER')")
+    @PreAuthorize("hasAnyRole('SUPER','MENU_ALL')")
     public ApiMessage getMenuTree() {
         List<TreeVo> treeList = menuService.getMenuTree();
 
@@ -77,7 +79,7 @@ public class MenuController {
      */
     @SysLog(value = "查询菜单")
     @RequestMapping(value = "/initMenusAll", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER')")
+    @PreAuthorize("hasAnyRole('SUPER','MENU_ALL')")
     public ApiMessage initMenusAll(@RequestBody Map<String, Object> params) {
         PageUtils pageUtils = menuService.queryAllMenu(params);
 
@@ -97,11 +99,25 @@ public class MenuController {
     /**
      * 修改
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @SysLog(value = "修改菜单")
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','MENU_EDIT')")
     @ApiOperation("修改菜单")
     public ApiMessage update(@RequestBody MenuEntity menuEntity) {
         menuService.updateById(menuEntity);//全部更新
+
+        return ApiMessage.ofSuccess();
+    }
+
+    /**
+     * 删除
+     */
+    @SysLog(value = "删除菜单")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('SUPER','MENU_DEL')")
+    @ApiOperation("删除菜单")
+    public ApiMessage delete(@PathVariable Long id) {
+        menuService.delete(id);//全部更新
 
         return ApiMessage.ofSuccess();
     }

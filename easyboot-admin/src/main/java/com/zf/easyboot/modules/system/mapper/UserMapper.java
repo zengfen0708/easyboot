@@ -44,4 +44,13 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @return
      */
     Integer queryListTotal(@Param("params")Map<String,Object> params);
+
+
+    /**
+     * 导出excel
+     * @param params
+     * @return
+     */
+
+    List<UserEntity> exportExcel(@Param("params")Map<String, Object> params);
 }

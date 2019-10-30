@@ -11,6 +11,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -98,11 +99,16 @@ public class GlobalExceptionHandler {
             log.error("【全局异常拦截】DataManagerException: 状态码 {}, 异常信息 {}",
                     error.getCode(), e.getMessage());
             return ApiMessage.ofException((BaseException) e);
-        }else if (e instanceof SecurityException){
+        } else if (e instanceof SecurityException) {
             SecurityException error = (SecurityException) e;
             log.error("【全局异常拦截】SecurityException: 状态码 {}, 异常信息 {}",
                     error.getCode(), e.getMessage());
             return ApiMessage.ofException((BaseException) e);
+        } else if (e instanceof UsernameNotFoundException) {
+            log.error("【全局异常拦截】SecurityException: 异常信息 {}",
+                    e.getMessage());
+
+            return ApiMessage.putHttpStatus(HttpStatus.TOKEN_PARSE_ERROR);
         }
         log.error("【全局异常拦截】: 异常信息 {} ", e);
         return ApiMessage.putHttpStatus(HttpStatus.ERROR);

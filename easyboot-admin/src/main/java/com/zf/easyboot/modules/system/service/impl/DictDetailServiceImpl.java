@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Slf4j
@@ -31,13 +32,8 @@ public class DictDetailServiceImpl extends ServiceImpl<DictDetailMapper, DictDet
 
         Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
         Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
-        if (currPage == null) {
-            currPage = CommonConstant.DEFAULT_PAGE;
-        }
-
-        if (pageSize == null) {
-            pageSize = CommonConstant.DEFAULT_PAGE_SIZE;
-        }
+        currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
+        pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
 
         Integer startPage = currPage == 0 ? currPage * pageSize : (currPage - 1) * pageSize;
 

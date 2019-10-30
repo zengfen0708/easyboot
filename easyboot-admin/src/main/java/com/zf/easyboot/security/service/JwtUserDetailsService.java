@@ -1,7 +1,12 @@
 package com.zf.easyboot.security.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.zf.easyboot.config.util.RedisUtils;
+import com.zf.easyboot.security.jwt.JwtConfig;
 import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.enums.HttpStatus;
@@ -25,6 +30,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -50,15 +56,59 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Resource
     private PermissionMapper permissionMapper;
 
+    @Resource
+    private JwtConfig jwtConfig;
+    @Resource
+    private RedisUtils redisUtils;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         if (log.isDebugEnabled()) {
-            log.debug("Authenticating user '{}'",
-                    username);
+            log.debug("Authenticating user '{}'", username);
         }
 
+        String key = jwtConfig.getJwtRedisKey() + "userDetails:" + username;
+
+
+        String value = redisUtils.get(key);
+        JwtUser jwtUser = JSON.parseObject(value, JwtUser.class);
+        if (jwtUser != null) {
+            JSONObject jsonObject = JSONObject.parseObject(value);
+            JSONArray authoritiesJsonArray = (JSONArray) jsonObject.getJSONArray("authorities");
+            List<GrantedAuthority> authoritiesList = authoritiesJsonArray.parallelStream()
+                    .map(item -> initGrantedAuthority(item)).collect(Collectors.toList());
+            jwtUser.setAuthorities(authoritiesList);
+            return  jwtUser;
+        }
+
+        jwtUser = userDetailsBuild(username);
+
+        //设置redis key
+        redisUtils.set(key, jwtUser, jwtConfig.getExpiration());
+
+        return jwtUser;
+    }
+
+    /**
+     * 初始化信息
+     * @param item
+     * @return
+     */
+    public GrantedAuthority initGrantedAuthority(Object item) {
+        JSONObject jsonObject = (JSONObject) item;
+        String roleName = jsonObject.getString("authority");
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(roleName);
+        return simpleGrantedAuthority;
+    }
+
+    /**
+     * 初始化userDetails信息
+     *
+     * @param username
+     * @return
+     */
+    private JwtUser userDetailsBuild(String username) {
         UserEntity user = userMapper.findByUsername(username)
                 .orElseThrow(() -> new
                         UsernameNotFoundException("未找到用户信息 : "
@@ -67,6 +117,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (java.util.Objects.equals(user.getStatus(), CommonConstant.DISABLE)) {
             throw new BaseException(HttpStatus.ACCOUNT_ERROR);
         }
+
 
         return create(user);
     }

@@ -30,6 +30,9 @@
         <if test=" params.value!=null and params.value!='' and  params.type=='remark'">
             and a.remark like concat('%',#{params.value},'%')
         </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
+        </if>
         ORDER BY a.create_time
         limit #{startPage},#{pageSize}
     </select>
@@ -42,9 +45,12 @@
         <if test=" params.value!=null and params.value!='' and  params.type=='remark'">
             and a.remark like concat('%',#{params.value},'%')
         </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
+        </if>
     </select>
 
-    <select id="exportExcel" resultType="com.zf.easyboot.modules.system.excel.DictExcelEntity">
+    <select id="exportExcel" resultType="com.zf.easyboot.modules.system.excel.DictExcelVo">
         select a.id,
         a.name,
         a.remark,
@@ -54,6 +60,14 @@
         a.update_time
         from sys_dict  a
         where a.deleted=0
-
+        <if test=" params.value!=null and params.value!='' and  params.type=='name' ">
+            and a.name like concat('%',#{params.value},'%')
+        </if>
+        <if test=" params.value!=null and params.value!='' and  params.type=='remark'">
+            and a.remark like concat('%',#{params.value},'%')
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
+        </if>
     </select>
 </mapper>

@@ -1,8 +1,5 @@
 package com.zf.easyboot.modules.system.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * @author 疯信子
  * @version 1.0
@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_role_menu")
-@ApiModel(value = "角色与菜单关系表",description = "保存角色与菜单关系表数据")
+@ApiModel(value = "角色与菜单关系表", description = "保存角色与菜单关系表数据")
 public class RoleMenuEntity implements Serializable {
 
     /**

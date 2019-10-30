@@ -6,11 +6,12 @@ import java.io.IOException;
 
 /**
  * XSS过滤
+ *
  * @author 疯信子
  * @version 1.0
  * @date 2019/9/20.
  */
-public class XssFilter implements  Filter {
+public class XssFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) throws ServletException {

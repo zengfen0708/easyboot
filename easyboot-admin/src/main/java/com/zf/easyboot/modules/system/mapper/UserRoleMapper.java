@@ -25,4 +25,10 @@ public interface UserRoleMapper extends BaseMapper<UserRoleEntity> {
      */
     List<Long> selectByUserIdToRoles(@Param("userId") Long userId);
 
+
+    /**
+     * 根据用户id删除角色
+     */
+    void deleteByUserId(@Param("userId") Long userId);
+
 }

@@ -11,7 +11,7 @@ import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.common.utils.ResponseFileUtil;
 import com.zf.easyboot.config.util.FileOperateUtil;
 import com.zf.easyboot.modules.system.entity.DictEntity;
-import com.zf.easyboot.modules.system.excel.DictExcelEntity;
+import com.zf.easyboot.modules.system.excel.DictExcelVo;
 import com.zf.easyboot.modules.system.service.DictService;
 import com.zf.easyboot.modules.system.vo.DictSearchVo;
 import io.swagger.annotations.Api;
@@ -54,8 +54,9 @@ public class DictController {
      * @param dictSearchVo
      * @return
      */
+    @SysLog("获取字典全部信息")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_ALL','DICT_SELECT')")
+    @PreAuthorize("hasAnyRole('SUPER','DICT_ALL')")
     @ApiOperation("获取字典全部信息")
     public ApiMessage list(@RequestBody DictSearchVo dictSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(dictSearchVo);
@@ -67,6 +68,7 @@ public class DictController {
     /**
      * 保存字典信息
      */
+    @SysLog("保存字典表")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','DICT_CREATE')")
     @ApiOperation("保存字典表")
@@ -80,6 +82,7 @@ public class DictController {
     /**
      * 修改字典信息
      */
+    @SysLog("修改字典表")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','DICT_EDIT')")
     @ApiOperation("修改字典表")
@@ -134,12 +137,12 @@ public class DictController {
     @SysLog("字典表批量导出")
     public void exportExcel(@RequestBody DictSearchVo dictSearchVo, HttpServletResponse response) throws IOException {
         Map<String, Object> params = BeanCopierUtils.object2Map(dictSearchVo);
-        List<DictExcelEntity> list = dictService.exportExcel(params);
+        List<DictExcelVo> list = dictService.exportExcel(params);
         ExportParams paramsExcel = new ExportParams(null, "字典表", ExcelType.XSSF);
         //是否固定表头
-        paramsExcel.setFreezeCol(1);
+        paramsExcel.setFreezeCol(0);
         String name = "字典表.xlsx";
-        Workbook workbook = ExcelExportUtil.exportExcel(paramsExcel, DictExcelEntity.class, list);
+        Workbook workbook = ExcelExportUtil.exportExcel(paramsExcel, DictExcelVo.class, list);
         ResponseFileUtil.exportExcelFile(response, workbook, name);
     }
 

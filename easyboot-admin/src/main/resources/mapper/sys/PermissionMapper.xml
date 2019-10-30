@@ -15,11 +15,10 @@
     </resultMap>
 
 
-
     <select id="queryAllList" resultMap="permissionMap">
-        select   a.id,a.alias,a.name,
+        select a.id,a.alias,a.name,
         a.parent_id,a.deleted,a.create_time
-        from sys_permission  a where a.deleted=0
+        from sys_permission a where a.deleted=0
         <if test="params.aliasName!=null and params.aliasName!='' ">
             and a.alias like concat('%',#{params.aliasName},'%')
         </if>
@@ -27,30 +26,31 @@
     </select>
 
     <select id="selectByRolesIdToPermission" resultType="String">
-        select  name  from  sys_permission per
-        left join sys_role_permission  role on( role.per_id=per.id)
+        select name from sys_permission per
+        left join sys_role_permission role on( role.per_id=per.id)
         where per.deleted=0
         <if test="roleIds!=null and roleIds!=''">
-            and  role.role_id in (${roleIds} )
+            and role.role_id in (${roleIds} )
         </if>
     </select>
 
     <select id="findByRolesIdPermission" resultMap="permissionMap">
-           select   a.id,a.alias,a.name,
+        select a.id,a.alias,a.name,
         a.parent_id,a.deleted,a.create_time
-        from sys_permission  a
-        left join sys_role_permission  role on( role.per_id=a.id)
+        from sys_permission a
+        left join sys_role_permission role on( role.per_id=a.id)
         where a.deleted=0
         <if test="roleIds!=null and roleIds!=''">
-            and  role.role_id in (${roleIds} )
+            and role.role_id in (${roleIds} )
         </if>
+
     </select>
 
-    <select id="queryByPermissionIds"  resultType="Long">
-        select id  from sys_permission  a where  a.deleted=0 and (  id=#{id} or parent_id=#{id} )
+    <select id="queryByPermissionIds" resultType="Long">
+        select id from sys_permission a where a.deleted=0 and ( id=#{id} or parent_id=#{id} )
     </select>
     <update id="updateSonPermissionId">
-         update sys_permission set deleted=1   where
-        id in  (${ids} ) or parent_id in (${ids} )
+        update sys_permission set deleted=1 where
+        id in (${ids} ) or parent_id in (${ids} )
     </update>
 </mapper>

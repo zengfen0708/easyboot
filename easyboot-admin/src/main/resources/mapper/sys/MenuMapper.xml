@@ -37,7 +37,7 @@
             and role.role_id in (${roleIds} )
         </if>
         ORDER BY
-        menu.sort,menu.id   ASC
+        menu.sort,menu.id ASC
     </select>
 
     <select id="findAllMenuTree" resultMap="menuMap">
@@ -58,7 +58,7 @@
             and ${params.sql_filter}
         </if>
         ORDER BY
-        menu.sort,menu.id   ASC
+        menu.sort,menu.id ASC
     </select>
 
 

@@ -3,14 +3,12 @@ package com.zf.easyboot.security.jwt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import com.zf.easyboot.common.constant.CommonConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -18,7 +16,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2019/9/19.
  */
-@Getter
+@Data
 @AllArgsConstructor
 public class JwtUser implements UserDetails {
 
@@ -48,10 +46,6 @@ public class JwtUser implements UserDetails {
         return password;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
 
     //账户是否未过期
     @JsonIgnore

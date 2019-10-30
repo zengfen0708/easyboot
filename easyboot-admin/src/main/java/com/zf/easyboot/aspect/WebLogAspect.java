@@ -75,11 +75,10 @@ public class WebLogAspect {
         log.info("【浏览器类型】:{},【操作系统】:{}，" +
                         "【原始User-Agent】:{}", userAgent.getBrowser().toString(),
                 userAgent.getOperatingSystem().toString(), header);
-        log.info("【请求类名】:{},【请求方法名】:{}\n[请求参数]:{}",
+        log.info("【请求类名】:{},【请求方法名】:{}",
                 point.getSignature().getDeclaringTypeName(),
-                point.getSignature().getName(),
-                RequestMethodUtils.getParameter(method, point.getArgs()));
-
+                point.getSignature().getName() );
+        log.info("[请求参数]:{}",RequestMethodUtils.getParameter(method, point.getArgs()));
 
         //获取当前时间
         LocalDateTime startTime = LocalDateTime.now();

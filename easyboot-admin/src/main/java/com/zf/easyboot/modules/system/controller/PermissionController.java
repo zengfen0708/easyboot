@@ -33,6 +33,7 @@ public class PermissionController {
     @Resource
     private PermissionService permissionService;
 
+    @SysLog("获取权限菜单信息")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','PERMISSION_ALL')")
     @ApiOperation("获取权限菜单信息")
@@ -43,8 +44,9 @@ public class PermissionController {
         return ApiMessage.ofSuccess(page);
     }
 
+    @SysLog("加载添加权限权限树形菜单")
     @RequestMapping(value = "/treeBulid", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','PERMISSION_ALL','PERMISSION_CREATE','PERMISSION_EDIT','ROLES_SELECT','ROLES_ALL')")
+    @PreAuthorize("hasAnyRole('SUPER','PERMISSION_ALL')")
     @ApiOperation("加载添加权限权限树形菜单")
     public ApiMessage treeBulid(@RequestBody PermissionSearchVo permissionSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(permissionSearchVo);
@@ -57,6 +59,7 @@ public class PermissionController {
     /**
      * 保存
      */
+    @SysLog("保存权限菜单")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','PERMISSION_CREATE')")
     @ApiOperation("保存权限菜单")
@@ -70,6 +73,7 @@ public class PermissionController {
     /**
      * 修改
      */
+    @SysLog("修改权限数据")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','PERMISSION_EDIT')")
     @ApiOperation("修改权限数据")
@@ -82,7 +86,7 @@ public class PermissionController {
 
     @SysLog("删除权限")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','PERMISSION_ALL','PERMISSION_DELETE')")
+    @PreAuthorize("hasAnyRole('SUPER','PERMISSION_DELETE')")
     public ApiMessage delete(@PathVariable Long id) {
         permissionService.deleteById(id);
 

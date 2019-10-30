@@ -23,14 +23,14 @@ public class SecurityUtil {
      *
      * @return 当前登录用户用户名
      */
-    public  String getCurrentUsername() {
+    public String getCurrentUsername() {
         try {
             JwtUser currentUser = getCurrentUser();
             return ObjectUtil.isNull(currentUser) ?
                     CommonConstant.ANONYMOUS_NAME :
                     currentUser.getUsername();
-        }catch (Exception e){
-            return  null;
+        } catch (Exception e) {
+            return null;
         }
 
     }
@@ -40,7 +40,7 @@ public class SecurityUtil {
      *
      * @return 当前登录用户信息，匿名登录时，为null
      */
-    public  JwtUser getCurrentUser() {
+    public JwtUser getCurrentUser() {
         Object userInfo = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();

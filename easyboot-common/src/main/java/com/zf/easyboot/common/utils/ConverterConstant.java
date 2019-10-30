@@ -44,8 +44,8 @@ public class ConverterConstant {
             return "";
         }
 
-        List<String> list=from.parallelStream().filter(item->StringUtils.isNotBlank(String.valueOf(item)))
-                .map(item->"'"+item+"'").collect(Collectors.toList());
+        List<String> list = from.parallelStream().filter(item -> StringUtils.isNotBlank(String.valueOf(item)))
+                .map(item -> "'" + item + "'").collect(Collectors.toList());
 
         return Joiner.on(",").join(list);
     };

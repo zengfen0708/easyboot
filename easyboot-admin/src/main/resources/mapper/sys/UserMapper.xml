@@ -56,6 +56,7 @@
             a.phone,
             a.email,
             a.status,
+            a.sex,
             a.dept_id,
             a.job_id,
             a.deleted,
@@ -67,9 +68,18 @@
         left join sys_dept b on (b.id=a.dept_id)
         left join sys_job c on (c.id=a.job_id)
         where a.deleted=0
-        <if test="params.username != null and params.username !=''">
+        <if test="params.username != null and params.username !=''
+            and params.type == 'username'">
             and a.username like concat('%',#{params.username},'%')
         </if>
+        <if test="params.username != null and params.username !=''
+         and params.type =='email'">
+            and a.email like concat('%',#{params.username},'%')
+        </if>
+        <if test="params.enabled!=null">
+            and a.status =#{params.enabled}
+        </if>
+
         <if test="params.sql_filter != null and params.sql_filter !=''">
             and ${params.sql_filter}
         </if>
@@ -82,8 +92,50 @@
         select count(1)
         from sys_user a
         where a.deleted=0
-        <if test="params.username != null and params.username !=''">
+        <if test="params.username != null and params.username !=''
+            and params.type == 'username'">
             and a.username like concat('%',#{params.username},'%')
+        </if>
+        <if test="params.username != null and params.username !=''
+         and params.type =='email'">
+            and a.email like concat('%',#{params.username},'%')
+        </if>
+        <if test="params.enabled!=null">
+            and a.status =#{params.enabled}
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
+        </if>
+    </select>
+
+    <select id="exportExcel" resultType="com.zf.easyboot.modules.system.excel.UserExcelVo">
+      select
+			a.id,
+			a.username,
+			a.password,
+		    a.nickname,
+		    a.phone,
+		    a.email,
+		    a.status,
+		    a.deleted,
+		    a.create_time,
+		    a.update_time,
+            b.name as dept_name,
+            c.name as job_name
+        from sys_user a
+        left join sys_dept b on (b.id=a.dept_id)
+        left join sys_job c on (c.id=a.job_id)
+        where a.deleted=0
+        <if test="params.username != null and params.username !=''
+            and params.type == 'username'">
+            and a.username like concat('%',#{params.username},'%')
+        </if>
+        <if test="params.username != null and params.username !=''
+         and params.type =='email'">
+            and a.email like concat('%',#{params.username},'%')
+        </if>
+        <if test="params.enabled!=null">
+            and a.status =#{params.enabled}
         </if>
         <if test="params.sql_filter != null and params.sql_filter !=''">
             and ${params.sql_filter}

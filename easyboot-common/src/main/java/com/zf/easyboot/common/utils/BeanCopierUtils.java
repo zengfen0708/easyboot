@@ -11,8 +11,8 @@ import java.util.Map;
 
 
 /**
- *  也可以使用MapStruct代替
- *  具体那种方法自行研究
+ * 也可以使用MapStruct代替
+ * 具体那种方法自行研究
  *
  * @author 疯信子
  * @version 1.0
@@ -26,6 +26,7 @@ public class BeanCopierUtils {
 
     /**
      * cp对象赋值
+     *
      * @param source 源对象
      * @param target 目标对象
      */
@@ -46,19 +47,19 @@ public class BeanCopierUtils {
     }
 
     public static Map<String, Object> object2Map(Object obj) {
-        Map<String, Object> map =Maps.newHashMap();
+        Map<String, Object> map = Maps.newHashMap();
         if (obj == null) {
             return map;
         }
         Class clazz = obj.getClass();
-        Field[] fields = getFieldsDirectly(obj.getClass(),true);
+        Field[] fields = getFieldsDirectly(obj.getClass(), true);
         try {
             for (Field field : fields) {
                 field.setAccessible(true);
                 map.put(field.getName(), field.get(obj));
             }
         } catch (Exception e) {
-            log.error("异常",e);
+            log.error("异常", e);
         }
         return map;
     }
@@ -82,7 +83,7 @@ public class BeanCopierUtils {
                 field.set(obj, map.get(field.getName()));
             }
         } catch (Exception e) {
-            log.error("异常",e);
+            log.error("异常", e);
         }
         return obj;
     }
@@ -90,7 +91,7 @@ public class BeanCopierUtils {
     /**
      * 获得一个类中所有字段列表，直接反射获取，无缓存
      *
-     * @param beanClass 类
+     * @param beanClass           类
      * @param withSuperClassFieds 是否包括父类的字段列表
      * @return 字段列表
      * @throws SecurityException 安全检查异常

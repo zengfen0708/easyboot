@@ -22,38 +22,41 @@
 
     <select id="queryList" resultMap="logMap">
         select
-            a.id,
-            a.username,
-            a.description,
-            a.method,
-            a.params,
-            a.log_type,
-            a.request_ip,
-            a.time,
-            a.create_time
-        from  sys_log a where a.deleted=0
+        a.id,
+        a.username,
+        a.description,
+        a.method,
+        a.params,
+        a.log_type,
+        a.request_ip,
+        a.time,
+        a.create_time
+        from sys_log a where a.deleted=0
         <if test="params.logType!=null">
-            and a.log_type  =#{params.logType}
+            and a.log_type =#{params.logType}
         </if>
-       ORDER BY a.create_time desc
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
+        </if>
+        ORDER BY a.create_time desc
         limit #{startPage},#{pageSize}
     </select>
 
 
     <select id="queryListTotal" resultType="Integer">
-        select count(1)  from  sys_log a where a.deleted=0
+        select count(1) from sys_log a where a.deleted=0
         <if test="params.logType!=null">
-            and a.log_type  =#{params.logType}
+            and a.log_type =#{params.logType}
         </if>
     </select>
-    
+
     <select id="queryErrorDetail" resultType="String">
-        select  a.exception_detail from sys_log a where a.deleted=0
+        select a.exception_detail from sys_log a where a.deleted=0
         <if test="params.logType!=null">
-            and a.log_type  =#{params.logType}
+            and a.log_type =#{params.logType}
         </if>
         <if test="params.id!=null">
-            and a.id  =#{params.id}
+            and a.id =#{params.id}
         </if>
 
     </select>

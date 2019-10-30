@@ -187,6 +187,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
         return ApiMessage.ofSuccess();
     }
 
+    @Override
+    public void delete(Long id) {
+        baseMapper.deleteById(id);
+    }
+
 
     /**
      * 初始化菜单目录
