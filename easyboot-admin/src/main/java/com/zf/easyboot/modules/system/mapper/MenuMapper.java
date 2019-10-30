@@ -18,14 +18,14 @@ public interface MenuMapper extends BaseMapper<MenuEntity> {
 
     /**
      * 获取所有的权限菜单
+     *
      * @param roleIds 权限
      * @return
      */
-    public List<MenuEntity> findByRoleMenuTree(@Param("roleIds") String roleIds);
+    List<MenuEntity> findByRoleMenuTree(@Param("roleIds") String roleIds);
 
 
-    public  List<MenuEntity> findAllMenuTree(@Param("params") Map<String, Object> params);
-
+    List<MenuEntity> findAllMenuTree(@Param("params") Map<String, Object> params);
 
 
 }

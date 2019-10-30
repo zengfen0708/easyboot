@@ -1,24 +1,20 @@
 package com.zf.easyboot.security.jwt;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import io.jsonwebtoken.*;
-import lombok.extern.slf4j.Slf4j;
 import com.zf.easyboot.common.enums.HttpStatus;
 import com.zf.easyboot.common.exception.SecurityException;
 import com.zf.easyboot.config.util.RedisUtils;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author 疯信子
@@ -34,7 +30,7 @@ public class JwtUtil {
 
 
     @Resource
-   private RedisUtils redisUtils;
+    private RedisUtils redisUtils;
 
     /**
      * 创建JWT
@@ -56,21 +52,20 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getKey());
 
 
-
         //设置token过期时间
         Long expirationTime = rememberMe
                 ? jwtConfig.getRemember() :
                 jwtConfig.getExpiration();
 
         if (expirationTime > 0) {
-            builder.setExpiration(new Date(now.getTime() + expirationTime*1000));
+            builder.setExpiration(new Date(now.getTime() + expirationTime * 1000));
         }
 
         String jwt = builder.compact();
 
         // 将生成的JWT保存至Redis(设置超时时间为毫秒)
 
-        redisUtils.set(jwtConfig.getJwtRedisKey() + subject,jwt,expirationTime);
+        redisUtils.set(jwtConfig.getJwtRedisKey() + subject, jwt, expirationTime);
         return jwt;
     }
 
@@ -117,7 +112,7 @@ public class JwtUtil {
 
             // 校验redis中的JWT是否与当前的一致，
             // 不一致则代表用户已注销/用户在不同设备登录，均代表JWT已过期
-            String redisToken =redisUtils
+            String redisToken = redisUtils
                     .get(jwtRedisKey);
             if (!StrUtil.equals(jwt, redisToken)) {
                 throw new SecurityException(HttpStatus.TOKEN_OUT_OF_CTRL);
@@ -177,7 +172,6 @@ public class JwtUtil {
      * @return jwt信息
      */
     public String resolveToken(HttpServletRequest request) {
-        String header = request.getHeader("User-Agent");
         String bearerToken = request.getHeader(jwtConfig.getHeader());
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);

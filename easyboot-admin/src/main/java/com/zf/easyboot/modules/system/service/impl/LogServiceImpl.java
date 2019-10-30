@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
-import com.zf.easyboot.modules.system.entity.DictEntity;
 import com.zf.easyboot.modules.system.entity.LogEntity;
 import com.zf.easyboot.modules.system.mapper.LogMapper;
 import com.zf.easyboot.modules.system.service.LogService;

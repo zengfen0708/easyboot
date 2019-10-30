@@ -13,4 +13,8 @@ public class LogSearchVo  extends PageInfoVo  {
     private Integer logType;
 
     private Long id;
+
+    private String  type;
+
+    private String value;
 }

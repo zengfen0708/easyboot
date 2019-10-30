@@ -1,8 +1,6 @@
 package com.zf.easyboot.modules.system.controller;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.zf.easyboot.common.annotation.SysLog;
 import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.BeanCopierUtils;
@@ -20,10 +18,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +39,7 @@ public class DictDetailController {
     private DictDetailService dictDetailService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_ALL')")
+    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_ALL')")
     @ApiOperation("获取字典详情全部信息")
     public ApiMessage list(@RequestBody DictDetailSearchVo dictDetailSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(dictDetailSearchVo);
@@ -53,7 +49,7 @@ public class DictDetailController {
     }
 
     @RequestMapping(value = "/queryDictDetailsInfo", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_ALL')")
+    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_ALL')")
     @ApiOperation("获取字典详情信息")
     public ApiMessage queryDictDetailsInfo(@RequestBody DictDetailSearchVo dictDetailSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(dictDetailSearchVo);
@@ -63,7 +59,7 @@ public class DictDetailController {
     }
 
     @RequestMapping(value = "/queryDictDetailsMap", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_ALL')")
+    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_ALL')")
     @ApiOperation("根据字典获取对应的map集合")
     public ApiMessage queryDictDetailsMap(@RequestBody DictDetailSearchVo dictDetailSearchVo) {
         String dictName = dictDetailSearchVo.getDictName();
@@ -105,7 +101,7 @@ public class DictDetailController {
      * 保存
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_CREATE')")
     @ApiOperation("保存字典详情数据")
     public ApiMessage save(@RequestBody DictDetailEntity dictDetailEntity) {
         dictDetailService.save(dictDetailEntity);
@@ -118,7 +114,7 @@ public class DictDetailController {
      * 修改
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_EDIT')")
+    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_EDIT')")
     @ApiOperation("修改字典详情数据")
     public ApiMessage update(@RequestBody DictDetailEntity dictDetailEntity) {
         dictDetailService.updateById(dictDetailEntity);//全部更新
@@ -129,7 +125,7 @@ public class DictDetailController {
 
     @SysLog("删除字典详情")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_DELETE')")
+    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_DELETE')")
     public ApiMessage delete(@PathVariable Long id) {
         dictDetailService.deleteById(id);
 

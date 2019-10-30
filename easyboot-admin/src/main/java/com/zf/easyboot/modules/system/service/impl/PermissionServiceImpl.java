@@ -39,13 +39,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public PageUtils queryList(Map<String, Object> params) {
         Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
         Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
-        if (currPage == null) {
-            currPage = CommonConstant.DEFAULT_PAGE;
-        }
-
-        if (pageSize == null) {
-            pageSize = CommonConstant.DEFAULT_PAGE_SIZE;
-        }
+        currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
+        pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
 
         List<PermissionEntity> list = Optional.ofNullable(baseMapper.queryAllList(params)).orElse(Lists.newArrayList());
         Integer totalCount = list.size();

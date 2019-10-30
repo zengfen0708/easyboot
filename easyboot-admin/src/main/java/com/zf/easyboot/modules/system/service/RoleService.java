@@ -26,4 +26,6 @@ public interface RoleService extends IService<RoleEntity> {
     RoleVo findByRoleIdInfo(Long id);
 
     List<RoleVo> queryRoleAll();
+
+    List<RoleVo> getRoleById(Long userId);
 }

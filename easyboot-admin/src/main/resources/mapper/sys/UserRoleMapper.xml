@@ -16,7 +16,12 @@
 
 
     <select id="selectByUserIdToRoles" resultType="Long">
-        select role_id from sys_user_role  where user_id=#{userId}
+        select role_id from sys_user_role where user_id=#{userId}
     </select>
+
+    <delete id="deleteByUserId">
+        delete from sys_user_role where user_id=#{userId}
+    </delete>
+
 
 </mapper>

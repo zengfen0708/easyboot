@@ -16,7 +16,7 @@
     </resultMap>
 
     <resultMap type="com.zf.easyboot.modules.system.vo.DictDetailVo" id="dictDetailVoMap" extends="dictDetailMap">
-        <result property="dictName" column="dict_name" />
+        <result property="dictName" column="dict_name"/>
     </resultMap>
 
 
@@ -29,25 +29,31 @@
             and dict_id in ( select id from sys_dict c where c.deleted=0 and c.name=#{params.dictName} )
         </if>
         <if test="params.dictId!=null and params.dictId!=0">
-          and   a.dict_id=#{params.dictId}
+            and a.dict_id=#{params.dictId}
         </if>
         <if test="params.label!=null and params.label!=''">
-            and    a.label like concat('%',#{params.label},'%')
+            and a.label like concat('%',#{params.label},'%')
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
         </if>
         ORDER BY a.create_time
         limit #{startPage},#{pageSize}
     </select>
 
     <select id="queryListTotal" resultType="Integer">
-        select count(1) from  sys_dict_detail a where a.deleted=0
+        select count(1) from sys_dict_detail a where a.deleted=0
         <if test="params.dictName != null and params.dictName !=''">
             and dict_id in ( select id from sys_dict c where c.deleted=0 and c.name=#{params.dictName} )
         </if>
         <if test="params.dictId!=null and params.dictId!=0">
-           and  a.dict_id=#{params.dictId}
+            and a.dict_id=#{params.dictId}
         </if>
         <if test="params.label!=null and params.label!=''">
-            and    a.label like concat('%',#{params.label},'%')
+            and a.label like concat('%',#{params.label},'%')
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
         </if>
 
     </select>
@@ -56,24 +62,27 @@
     <select id="queryDictDetailsInfo" resultMap="dictDetailVoMap">
         select a.id,a.label,a.value,a.sort,a.dict_id,a.deleted,
         a.create_time,b.name as dict_name
-        from sys_dict_detail a left join  sys_dict b on (a.dict_id=b.id and b.deleted=0 )
+        from sys_dict_detail a left join sys_dict b on (a.dict_id=b.id and b.deleted=0 )
         where a.deleted=0
         <if test="params.dictName != null and params.dictName !=''">
-          and   b.name =#{params.dictName}
+            and b.name =#{params.dictName}
         </if>
         <if test="params.dictNameList != null and params.dictNameList.size !=0">
-           and  b.name in
+            and b.name in
             <foreach collection="params.dictNameList" index="index" item="item" open="(" separator="," close=")">
                 #{item}
             </foreach>
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
         </if>
         order by sort
     </select>
 
 
     <update id="updateDetailId">
-          update sys_dict_detail set deleted=1   where
-         id =${ids}
+        update sys_dict_detail set deleted=1 where
+        id =#{ids}
     </update>
 
 </mapper>

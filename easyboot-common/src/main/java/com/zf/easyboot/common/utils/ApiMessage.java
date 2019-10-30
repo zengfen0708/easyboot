@@ -123,7 +123,7 @@ public class ApiMessage<T> implements Serializable {
         this.code = code;
         this.data = data;
         this.message = message;
-        nowTime= LocalDateTime.now();
+        nowTime = LocalDateTime.now();
     }
 
 

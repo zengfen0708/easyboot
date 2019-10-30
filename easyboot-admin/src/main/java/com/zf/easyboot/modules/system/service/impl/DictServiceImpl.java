@@ -3,9 +3,7 @@ package com.zf.easyboot.modules.system.service.impl;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Lists;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.common.enums.HttpStatus;
 import com.zf.easyboot.common.utils.ApiMessage;
@@ -14,7 +12,7 @@ import com.zf.easyboot.common.utils.ConverterConstant;
 import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.entity.DictDetailEntity;
 import com.zf.easyboot.modules.system.entity.DictEntity;
-import com.zf.easyboot.modules.system.excel.DictExcelEntity;
+import com.zf.easyboot.modules.system.excel.DictExcelVo;
 import com.zf.easyboot.modules.system.mapper.DictMapper;
 import com.zf.easyboot.modules.system.service.DictDetailService;
 import com.zf.easyboot.modules.system.service.DictService;
@@ -27,6 +25,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -41,13 +40,8 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
     public PageUtils queryList(Map<String, Object> params) {
         Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
         Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
-        if (currPage == null) {
-            currPage = CommonConstant.DEFAULT_PAGE;
-        }
-
-        if (pageSize == null) {
-            pageSize = CommonConstant.DEFAULT_PAGE_SIZE;
-        }
+        currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
+        pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
         Integer startPage = currPage == 0 ? currPage * pageSize : (currPage - 1) * pageSize;
 
         List<DictEntity> list = baseMapper.queryList(startPage, pageSize, params);
@@ -70,6 +64,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
         DictDetailEntity dictDetailEntity = new DictDetailEntity();
         dictDetailEntity.setDeleted(CommonConstant.INVALIDDELETE);
         dictDetailService.update(dictDetailEntity, new QueryWrapper<DictDetailEntity>().eq("dict_id", id));
+
     }
 
     /**
@@ -79,7 +74,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
      * @return
      */
     @Override
-    public List<DictExcelEntity> exportExcel(Map<String, Object> params) {
+    public List<DictExcelVo> exportExcel(Map<String, Object> params) {
 
         return baseMapper.exportExcel(params);
     }
@@ -96,13 +91,15 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
         params.setHeadRows(CommonConstant.EXCELHEADROWS);//设置读取的开始行
 
         //读取excel文件
-        List<DictExcelEntity> excelList = ExcelImportUtil.importExcel(
-                new File(filePath), DictExcelEntity.class, params);
+        List<DictExcelVo> excelList = ExcelImportUtil.importExcel(
+                new File(filePath), DictExcelVo.class, params);
 
         if (!CollectionUtils.isEmpty(excelList)) {
+            // 多线程问题
             List<DictEntity> list = excelList.parallelStream()
                     .map(item -> initDictEntiry(item)).collect(Collectors.toList());
             super.saveBatch(list, CommonConstant.SQLBATCHNUM);
+
             return ApiMessage.ofSuccess();
         }
 
@@ -114,7 +111,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
      * @param dictExcelEntity
      * @return
      */
-    private DictEntity initDictEntiry(DictExcelEntity dictExcelEntity) {
+    private DictEntity initDictEntiry(DictExcelVo dictExcelEntity) {
         DictEntity dictEntity = new DictEntity();
         BeanCopierUtils.copyProperties(dictExcelEntity, dictEntity);
         return dictEntity;

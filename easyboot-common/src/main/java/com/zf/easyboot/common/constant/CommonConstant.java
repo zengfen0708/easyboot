@@ -10,15 +10,15 @@ package com.zf.easyboot.common.constant;
  */
 public interface CommonConstant {
 
-    Integer DELETED=0;
+    Integer DELETED = 0;
 
-    Integer INVALIDDELETE=1;
+    Integer INVALIDDELETE = 1;
     /**
      * 状态0
      */
-    Integer STATUS=0;
+    Integer STATUS = 0;
 
-    String UTF_8="UTF-8";
+    String UTF_8 = "UTF-8";
     /**
      * 系统名称
      */
@@ -46,9 +46,9 @@ public interface CommonConstant {
      */
     Integer DEFAULT_PAGE = 0;
     /**
-     *  树形结构父类id
+     * 树形结构父类id
      */
-    Long DEFAULT_PARENTID=0L;
+    Long DEFAULT_PARENTID = 0L;
 
     /**
      * 匿名用户 用户名
@@ -59,18 +59,18 @@ public interface CommonConstant {
     /**
      * 生成验证码字数
      */
-    Integer SENDCHARCODE=4;
+    Integer SENDCHARCODE = 4;
 
 
     /**
      * 批量提交的sql语句
      */
-    Integer SQLBATCHNUM=1000;
+    Integer SQLBATCHNUM = 1000;
 
 
     /**
      * 读取excel开始行数
      */
-    Integer EXCELHEADROWS=1;
+    Integer EXCELHEADROWS = 1;
 
 }

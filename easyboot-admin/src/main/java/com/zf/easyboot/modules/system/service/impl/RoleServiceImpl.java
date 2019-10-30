@@ -56,12 +56,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
 
         Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
         Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
-        if (currPage == null) {
-            currPage = CommonConstant.DEFAULT_PAGE;
-        }
-        if (pageSize == null) {
-            pageSize = CommonConstant.DEFAULT_PAGE_SIZE;
-        }
+        currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
+        pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
         Integer startPage = currPage == 0 ? currPage * pageSize : (currPage - 1) * pageSize;
 
         List<RoleEntity> list = baseMapper.queryList(startPage, pageSize, params);
@@ -98,6 +94,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
                 .collect(Collectors.toList());
 
         return  result;
+    }
+
+    @Override
+    public List<RoleVo> getRoleById(Long userId) {
+        return baseMapper.getRoleById(userId);
     }
 
     private RoleVo initRoleInfo(RoleEntity item,boolean status) {

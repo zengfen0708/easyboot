@@ -16,24 +16,30 @@
     </resultMap>
 
     <resultMap id="jobVo" type="com.zf.easyboot.modules.system.vo.JobVo" extends="jobMap">
-        <result property="deptName"  column="dept_name"/>
-        <result property="deptParentId" column="dept_parent_id" />
+        <result property="deptName" column="dept_name"/>
+        <result property="deptParentId" column="dept_parent_id"/>
     </resultMap>
 
 
     <select id="queryList" resultMap="jobVo">
         select a.id,
-               a.name,
-               a.dept_id,
-               a.sort,
-               a.status,
-               b.parent_id as  dept_parent_id,
-               b.name as  dept_name,
-               a.create_time
-        from sys_job a left join sys_dept  b on(a.dept_id=b.id)
+        a.name,
+        a.dept_id,
+        a.sort,
+        a.status,
+        b.parent_id as dept_parent_id,
+        b.name as dept_name,
+        a.create_time
+        from sys_job a left join sys_dept b on(a.dept_id=b.id)
         where a.deleted=0
-        <if test="params.name!=null and params.name!=''">
-            and a.name  like concat('%',#{params.name},'%')
+        <if test="params.jobName!=null and params.jobName!=''">
+            and a.name like concat('%',#{params.jobName},'%')
+        </if>
+        <if test="params.status!=null">
+            and a.status =#{params.status}
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
         </if>
         ORDER BY a.create_time,a.sort
         limit #{startPage},#{pageSize}
@@ -41,10 +47,16 @@
     </select>
 
     <select id="queryListTotal" resultType="Integer">
-        select count(1) from  sys_job a
+        select count(1) from sys_job a
         where a.deleted=0
-        <if test="params.name!=null and params.name!=''">
-            and a.name  like concat('%',#{params.name},'%')
+        <if test="params.jobName!=null and params.jobName!=''">
+            and a.name like concat('%',#{params.jobName},'%')
+        </if>
+        <if test="params.status!=null">
+            and a.status =#{params.status}
+        </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
         </if>
     </select>
 

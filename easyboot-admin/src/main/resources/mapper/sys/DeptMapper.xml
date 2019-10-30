@@ -15,7 +15,6 @@
     </resultMap>
 
 
-
     <select id="queryList" resultMap="deptMap">
         select
         a.id,
@@ -32,6 +31,9 @@
         <if test="params.status!=null ">
             and a.status=#{params.status}
         </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
+        </if>
         ORDER BY id
     </select>
 
@@ -43,18 +45,21 @@
         <if test="params.status!=null">
             and a.status=#{params.status}
         </if>
+        <if test="params.sql_filter != null and params.sql_filter !=''">
+            and ${params.sql_filter}
+        </if>
     </select>
 
-    <update id="updateDeptId" >
-        update sys_dept set deleted=1   where
-        id in  (${ids} ) or parent_id in (${ids} )
+    <update id="updateDeptId">
+        update sys_dept set deleted=1 where
+        id in (${ids} ) or parent_id in (${ids} )
     </update>
 
     <select id="queryByDeptIds" resultType="Long">
-        select id  from sys_dept  a where   a.deleted=0 and (  id=#{id} or parent_id=#{id} )
+        select id from sys_dept a where a.deleted=0 and ( id=#{id} or parent_id=#{id} )
     </select>
 
     <select id="querySonDeptIds" resultType="Long">
-         select id  from sys_dept a  where   a.deleted=0 and ( id in (#{ids}) or parent_id in(#{ids}) )
+        select id from sys_dept a where a.deleted=0 and ( id in (#{ids}) or parent_id in(#{ids}) )
     </select>
 </mapper>

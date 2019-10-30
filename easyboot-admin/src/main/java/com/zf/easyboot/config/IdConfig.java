@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 雪花主键生成器
- * 如果是集群会出现重复，单机不会出现重复
+ * 如果是集群会出现重复，单机不会出现重复 19
  *
  * @author 疯信子
  * @version 1.0

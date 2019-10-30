@@ -2,6 +2,7 @@ package com.zf.easyboot.modules.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zf.easyboot.modules.system.entity.RoleEntity;
+import com.zf.easyboot.modules.system.vo.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,4 +32,6 @@ public interface RoleMapper extends BaseMapper<RoleEntity> {
 
 
     Integer queryListTotal(@Param("params") Map<String,Object> params);
+
+    List<RoleVo> getRoleById(@Param("userId")Long userId);
 }

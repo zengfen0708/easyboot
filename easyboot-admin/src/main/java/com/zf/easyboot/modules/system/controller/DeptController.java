@@ -34,7 +34,9 @@ public class DeptController {
     @Resource
     private DeptService deptService;
 
+    @SysLog(value = "获取全部信息")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('SUPER','DEPT_ALL')")
     @ApiOperation("获取全部信息")
     public ApiMessage list(@RequestBody DeptSearchVo deptSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(deptSearchVo);
@@ -64,6 +66,7 @@ public class DeptController {
     /**
      * 保存
      */
+    @SysLog(value = "保存部门数据")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','DEPT_CREATE')")
     @ApiOperation("保存部门数据")
@@ -77,6 +80,7 @@ public class DeptController {
     /**
      * 修改
      */
+    @SysLog(value = "修改部门数据")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','DEPT_EDIT')")
     @ApiOperation("修改部门数据")
@@ -89,7 +93,7 @@ public class DeptController {
 
     @SysLog("删除部门")
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DEPT_ALL','DEPT_DELETE')")
+    @PreAuthorize("hasAnyRole('SUPER','DEPT_DELETE')")
     public ApiMessage delete(@PathVariable Long id) {
         deptService.deleteById(id);
 

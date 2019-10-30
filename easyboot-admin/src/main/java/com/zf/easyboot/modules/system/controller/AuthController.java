@@ -18,8 +18,7 @@ import com.zf.easyboot.security.jwt.JwtUtil;
 import com.zf.easyboot.security.service.JwtUserDetailsService;
 import com.zf.easyboot.security.utils.ImgResult;
 import com.zf.easyboot.security.utils.SecurityUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
@@ -71,6 +69,12 @@ public class AuthController {
     @PostMapping("/login")
     @ApiOperation(value = "用户登陆", notes = "用户登陆获取jwt")
     @SysLog(value = "用户登陆")
+    @ApiResponses({
+            @ApiResponse(code=10005,message = "验证码过期或者输入不正确")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "loginRequest", value = "查询条件", required = false)
+    })
     public ApiMessage<String> login(@RequestBody LoginRequestVo loginRequest) {
 
         String username = loginRequest.getUsername();

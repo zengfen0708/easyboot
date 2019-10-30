@@ -18,16 +18,23 @@ spring:
   # 环境 dev|test|prod
   profiles:
     active: dev
-  output:
-    ansi:
-      enabled: always
+  servlet:
+    multipart:
+      max-file-size: 10MB  #最大文件大小
+      max-request-size: 10MB #最大请求大小
+  mvc:
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: false  #是否启用模板缓存
+  cache:
+    # 一般来说是不用配置的，Spring Cache 会根据依赖的包自行装配
+    type: redis
 #安全域名配置
 base:
     corsList:
       - http://localhost
       - http://localhost:9528
-      - http://192.168.3.6:80
-
 #mybatis配置信息
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*.xml
@@ -81,6 +88,6 @@ zfcustom:
         - "/auth/login"
         - "/auth/authCode"
         - "/druid/**"
-
+        - "/hello/**"
 
 

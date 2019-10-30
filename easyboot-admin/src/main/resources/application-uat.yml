@@ -76,9 +76,6 @@ spring:
         max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-idle: 10      # 连接池中的最大空闲连接
         min-idle: 5       # 连接池中的最小空闲连接
-  cache:
-  # 一般来说是不用配置的，Spring Cache 会根据依赖的包自行装配
-    type: redis
 
 
 

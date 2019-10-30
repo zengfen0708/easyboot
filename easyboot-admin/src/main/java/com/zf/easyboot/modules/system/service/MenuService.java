@@ -41,5 +41,7 @@ public interface MenuService extends IService<MenuEntity> {
     List<TreeVo> getMenuTree();
 
     ApiMessage saveMenuInfo(MenuEntity menuEntity);
+
+    void delete(Long id);
 }
 

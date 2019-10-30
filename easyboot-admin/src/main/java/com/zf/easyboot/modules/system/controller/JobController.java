@@ -35,9 +35,9 @@ public class JobController {
     @Resource
     private JobService jobService;
 
-
+    @SysLog(value = "获取岗位列表信息")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','USERJOB_ALL','USERJOB_SELECT')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_ALL','JOB_ALL')")
     @ApiOperation("获取岗位列表信息")
     public ApiMessage list(@RequestBody JobSearchVo jobSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(jobSearchVo);
@@ -46,9 +46,9 @@ public class JobController {
         return ApiMessage.ofSuccess(page);
     }
 
-
+    @SysLog(value = "根据部门id搜索对应的岗位")
     @RequestMapping(value = "/getAllJob", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('SUPER','USERJOB_ALL','USERJOB_SELECT')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_ALL','JOB_ALL')")
     @ApiOperation("根据部门id搜索对应的岗位")
     public ApiMessage getAllJob(@RequestParam Long deptId) {
         List<JobEntity> list = Lists.newArrayList();
@@ -62,8 +62,9 @@ public class JobController {
     /**
      * 保存
      */
+    @SysLog(value = "保存权限菜单")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','USERJOB_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_CREATE')")
     @ApiOperation("保存权限菜单")
     public ApiMessage save(@RequestBody JobEntity jobEntity) {
         jobService.save(jobEntity);
@@ -75,8 +76,9 @@ public class JobController {
     /**
      * 修改
      */
+    @SysLog(value = "修改权限数据")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','USERJOB_EDIT')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_EDIT')")
     @ApiOperation("修改权限数据")
     public ApiMessage update(@RequestBody JobEntity jobEntity) {
         jobService.updateById(jobEntity);//全部更新
@@ -87,7 +89,7 @@ public class JobController {
 
     @SysLog("删除权限")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','USERJOB_ALL','USERJOB_DELETE')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_DELETE')")
     public ApiMessage delete(@PathVariable Long id) {
         jobService.deleteById(id);
 

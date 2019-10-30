@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 获取ip工具类
+ *
  * @author 疯信子
  * @version 1.0
  * @date 2019/9/17.
@@ -49,7 +50,7 @@ public class IPUtils {
             log.error("IPUtils ERROR ", e);
         }
 
-        return   "0:0:0:0:0:0:0:1".equals(ip)?"127.0.0.1":ip;
+        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
 
     }
 }

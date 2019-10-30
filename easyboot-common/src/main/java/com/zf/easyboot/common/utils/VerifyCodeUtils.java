@@ -24,57 +24,61 @@ import java.util.Random;
 public class VerifyCodeUtils {
 
     //使用到Algerian字体，系统里没有的话需要安装字体，字体只显示大写，去掉了1,0,i,o几个容易混淆的字符
-    public   String VERIFY_CODES = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
-    private  Random random = new Random();
+    public String VERIFY_CODES = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+    private Random random = new Random();
 
 
     /**
      * 使用系统默认字符源生成验证码
-     * @param verifySize	验证码长度
+     *
+     * @param verifySize 验证码长度
      * @return
      */
-    public  String generateVerifyCode(int verifySize){
+    public String generateVerifyCode(int verifySize) {
         return generateVerifyCode(verifySize, VERIFY_CODES);
     }
+
     /**
      * 使用指定源生成验证码
-     * @param verifySize	验证码长度
-     * @param sources	验证码字符源
+     *
+     * @param verifySize 验证码长度
+     * @param sources    验证码字符源
      * @return
      */
-    public  String generateVerifyCode(int verifySize, String sources){
-        if(sources == null || sources.length() == 0){
+    public String generateVerifyCode(int verifySize, String sources) {
+        if (sources == null || sources.length() == 0) {
             sources = VERIFY_CODES;
         }
         int codesLen = sources.length();
         Random rand = new Random(System.currentTimeMillis());
         StringBuilder verifyCode = new StringBuilder(verifySize);
-        for(int i = 0; i < verifySize; i++){
-            verifyCode.append(sources.charAt(rand.nextInt(codesLen-1)));
+        for (int i = 0; i < verifySize; i++) {
+            verifyCode.append(sources.charAt(rand.nextInt(codesLen - 1)));
         }
         return verifyCode.toString();
     }
 
     /**
      * 输出指定验证码图片流
+     *
      * @param w
      * @param h
      * @param os
      * @param code
      * @throws IOException
      */
-    public  void outputImage(int w, int h, OutputStream os, String code) throws IOException{
+    public void outputImage(int w, int h, OutputStream os, String code) throws IOException {
         int verifySize = code.length();
         BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         Random rand = new Random();
         Graphics2D g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         Color[] colors = new Color[5];
-        Color[] colorSpaces = new Color[] { Color.WHITE, Color.CYAN,
+        Color[] colorSpaces = new Color[]{Color.WHITE, Color.CYAN,
                 Color.GRAY, Color.LIGHT_GRAY, Color.MAGENTA, Color.ORANGE,
-                Color.PINK, Color.YELLOW };
+                Color.PINK, Color.YELLOW};
         float[] fractions = new float[colors.length];
-        for(int i = 0; i < colors.length; i++){
+        for (int i = 0; i < colors.length; i++) {
             colors[i] = colorSpaces[rand.nextInt(colorSpaces.length)];
             fractions[i] = rand.nextFloat();
         }
@@ -85,7 +89,7 @@ public class VerifyCodeUtils {
 
         Color c = getRandColor(200, 250);
         g2.setColor(c);// 设置背景色
-        g2.fillRect(0, 2, w, h-4);
+        g2.fillRect(0, 2, w, h - 4);
 
         //绘制干扰线
         Random random = new Random();
@@ -111,22 +115,22 @@ public class VerifyCodeUtils {
         shear(g2, w, h, c);// 使图片扭曲
 
         g2.setColor(getRandColor(100, 160));
-        int fontSize = h-4;
+        int fontSize = h - 4;
         Font font = new Font("Algerian", Font.ITALIC, fontSize);
         g2.setFont(font);
         char[] chars = code.toCharArray();
-        for(int i = 0; i < verifySize; i++){
+        for (int i = 0; i < verifySize; i++) {
             AffineTransform affine = new AffineTransform();
-            affine.setToRotation(Math.PI / 4 * rand.nextDouble() * (rand.nextBoolean() ? 1 : -1), (w / verifySize) * i + fontSize/2, h/2);
+            affine.setToRotation(Math.PI / 4 * rand.nextDouble() * (rand.nextBoolean() ? 1 : -1), (w / verifySize) * i + fontSize / 2, h / 2);
             g2.setTransform(affine);
-            g2.drawChars(chars, i, 1, ((w-10) / verifySize) * i + 5, h/2 + fontSize/2 - 10);
+            g2.drawChars(chars, i, 1, ((w - 10) / verifySize) * i + 5, h / 2 + fontSize / 2 - 10);
         }
 
         g2.dispose();
         ImageIO.write(image, "jpg", os);
     }
 
-    private  Color getRandColor(int fc, int bc) {
+    private Color getRandColor(int fc, int bc) {
         if (fc > 255)
             fc = 255;
         if (bc > 255)
@@ -137,7 +141,7 @@ public class VerifyCodeUtils {
         return new Color(r, g, b);
     }
 
-    private  int getRandomIntColor() {
+    private int getRandomIntColor() {
         int[] rgb = getRandomRgb();
         int color = 0;
         for (int c : rgb) {
@@ -147,7 +151,7 @@ public class VerifyCodeUtils {
         return color;
     }
 
-    private  int[] getRandomRgb() {
+    private int[] getRandomRgb() {
         int[] rgb = new int[3];
         for (int i = 0; i < 3; i++) {
             rgb[i] = random.nextInt(255);
@@ -155,12 +159,12 @@ public class VerifyCodeUtils {
         return rgb;
     }
 
-    private  void shear(Graphics g, int w1, int h1, Color color) {
+    private void shear(Graphics g, int w1, int h1, Color color) {
         shearX(g, w1, h1, color);
         shearY(g, w1, h1, color);
     }
 
-    private  void shearX(Graphics g, int w1, int h1, Color color) {
+    private void shearX(Graphics g, int w1, int h1, Color color) {
 
         int period = random.nextInt(2);
 
@@ -183,7 +187,7 @@ public class VerifyCodeUtils {
 
     }
 
-    private  void shearY(Graphics g, int w1, int h1, Color color) {
+    private void shearY(Graphics g, int w1, int h1, Color color) {
 
         int period = random.nextInt(40) + 10; // 50;
 

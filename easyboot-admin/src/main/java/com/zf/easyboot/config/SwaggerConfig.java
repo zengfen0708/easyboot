@@ -6,16 +6,20 @@ import io.swagger.annotations.ApiOperation;
 import com.zf.easyboot.common.constant.CommonConstant;
 import com.zf.easyboot.security.jwt.JwtConfig;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.SpringfoxWebMvcConfiguration;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -33,7 +37,8 @@ import java.util.List;
 @EnableSwagger2
 @EnableSwaggerBootstrapUi
 @Import(BeanValidatorPluginsConfiguration.class)
-public class SwaggerConfig {
+@ConditionalOnClass(SpringfoxWebMvcConfiguration.class)
+public class SwaggerConfig implements WebMvcConfigurer {
 
     @Resource
     private JwtConfig jwtConfig;
@@ -41,6 +46,16 @@ public class SwaggerConfig {
     @Value("${swagger.enabled}")
     private Boolean enabled;
 
+
+    /**
+     * 需要添加这个，否则会出现找到的错误
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 
     @Bean
     public Docket createRestApi() {
@@ -58,7 +73,6 @@ public class SwaggerConfig {
         messageList.add(new ResponseMessageBuilder().code(500).message("服务器发生异常,请刷新重试").build());
         messageList.add(new ResponseMessageBuilder().code(401).message("您没有权限访问").build());
         messageList.add(new ResponseMessageBuilder().code(0).message("OK").build());
-
 
 
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
@@ -94,7 +108,7 @@ public class SwaggerConfig {
 
     private ApiKey apiKey() {
         return
-                new ApiKey(jwtConfig.getHeader(), "ZFSimple-Auth", "header");
+                new ApiKey(jwtConfig.getHeader(), jwtConfig.getHeader(), "header");
     }
 
     private ApiInfo apiInfo() {

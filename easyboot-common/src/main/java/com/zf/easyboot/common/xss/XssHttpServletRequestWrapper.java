@@ -36,11 +36,10 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
 
-
     @Override
     public ServletInputStream getInputStream() throws IOException {
         //非json类型，直接返回
-        String CONTENT_TYPE=getHeader(HttpHeaders.CONTENT_TYPE);
+        String CONTENT_TYPE = getHeader(HttpHeaders.CONTENT_TYPE);
 
         if (!(MediaType.APPLICATION_JSON_UTF8_VALUE.equalsIgnoreCase(CONTENT_TYPE) || MediaType.APPLICATION_JSON_VALUE.equalsIgnoreCase(CONTENT_TYPE))) {
             return super.getInputStream();
@@ -126,7 +125,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     private String xssEncode(String input) {
         //删除多余的空格
-        input=StringUtils.deleteWhitespace(input);
+        input = StringUtils.deleteWhitespace(input);
         return htmlFilter.filter(input);
     }
 
@@ -134,6 +133,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         return htmlFilter.filter(input);
     }
+
     /**
      * 获取最原始的request
      */

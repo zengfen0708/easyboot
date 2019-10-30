@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zf.easyboot.common.utils.ApiMessage;
 import com.zf.easyboot.common.utils.PageUtils;
 import com.zf.easyboot.modules.system.entity.DictEntity;
-import com.zf.easyboot.modules.system.excel.DictExcelEntity;
+import com.zf.easyboot.modules.system.excel.DictExcelVo;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public interface DictService extends IService<DictEntity> {
 
     void deleteById(Long id);
 
-    List<DictExcelEntity> exportExcel(Map<String,Object> params);
+    List<DictExcelVo> exportExcel(Map<String,Object> params);
 
     ApiMessage importExcelData(String filePath);
 }
