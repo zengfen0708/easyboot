@@ -1,17 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : localhost-simple
-Source Server Version : 50725
-Source Host           : localhost:3306
-Source Database       : simple_data
-
-Target Server Type    : MYSQL
-Target Server Version : 50725
-File Encoding         : 65001
-
-Date: 2019-10-19 20:08:46
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -60,7 +46,7 @@ CREATE TABLE `sys_dict` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_dix_name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='字典表';
+) ENGINE=InnoDB AUTO_INCREMENT=1053 DEFAULT CHARSET=utf8 COMMENT='字典表';
 
 -- ----------------------------
 -- Records of sys_dict
@@ -69,6 +55,7 @@ INSERT INTO `sys_dict` VALUES ('1', 'user_status', '用户状态', '1', '0', '20
 INSERT INTO `sys_dict` VALUES ('2', 'dept_status', '部门状态', '1', '0', '2019-10-14 14:49:01', '2019-10-14 14:49:01');
 INSERT INTO `sys_dict` VALUES ('3', 'job_status', '岗位状态', '1', '0', '2019-10-14 14:49:01', '2019-10-14 14:49:01');
 INSERT INTO `sys_dict` VALUES ('5', 'dict_status', '字典状态', '1', '0', '2019-10-15 15:35:49', '2019-10-16 15:20:56');
+INSERT INTO `sys_dict` VALUES ('6', 'user_sex', '性别', '1', '0', '2019-10-22 17:11:56', '2019-10-22 17:11:53');
 
 -- ----------------------------
 -- Table structure for sys_dict_detail
@@ -85,7 +72,7 @@ CREATE TABLE `sys_dict_detail` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_dictid` (`dict_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='字典表详情表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='字典表详情表';
 
 -- ----------------------------
 -- Records of sys_dict_detail
@@ -98,6 +85,8 @@ INSERT INTO `sys_dict_detail` VALUES ('6', '启用', '1', '1', '1', '0', '2019-1
 INSERT INTO `sys_dict_detail` VALUES ('7', '禁用', '0', '2', '1', '0', '2019-10-15 17:39:44', '2019-10-15 17:39:43');
 INSERT INTO `sys_dict_detail` VALUES ('8', '正常', '1', '1', '3', '0', '2019-10-16 09:59:13', '2019-10-16 09:59:12');
 INSERT INTO `sys_dict_detail` VALUES ('9', '禁用', '0', '1', '3', '0', '2019-10-16 09:59:30', '2019-10-16 11:33:35');
+INSERT INTO `sys_dict_detail` VALUES ('10', '男', '1', '1', '6', '0', '2019-10-22 17:12:53', '2019-10-22 17:12:51');
+INSERT INTO `sys_dict_detail` VALUES ('11', '女', '2', '2', '6', '0', '2019-10-22 17:13:06', '2019-10-22 17:13:31');
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -125,6 +114,30 @@ INSERT INTO `sys_job` VALUES ('4', '后端开发', '12', '4', '1', '0', '2019-10
 INSERT INTO `sys_job` VALUES ('5', '人事专员', '3', '4', '1', '0', '2019-10-16 11:11:12', '2019-10-16 11:11:12');
 
 -- ----------------------------
+-- Table structure for sys_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `username` varchar(255) DEFAULT NULL COMMENT '操作用户',
+  `description` varchar(255) DEFAULT NULL COMMENT '方法描述',
+  `exception_detail` text COMMENT '异常描述',
+  `method` varchar(255) DEFAULT NULL COMMENT '请求方法名',
+  `params` text COMMENT '请求参数',
+  `log_type` tinyint(1) DEFAULT '0' COMMENT '日志类型(0 系统日志 1 异常日志)',
+  `request_ip` varchar(255) DEFAULT NULL COMMENT '请求ip',
+  `time` bigint(20) NOT NULL COMMENT '执行时长(毫秒)',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '软删除标识(0 有效 1 已删除)',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8 COMMENT='系统日志表';
+
+-- ----------------------------
+-- Records of sys_log
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -140,7 +153,7 @@ CREATE TABLE `sys_menu` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='菜单';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -156,10 +169,14 @@ INSERT INTO `sys_menu` VALUES ('10', '二级菜单', 'nested/menu1/index', 'menu
 INSERT INTO `sys_menu` VALUES ('11', '二级菜单1', 'nested/menu2/index', 'menu2', '9', 'menu', '0', '0', '2019-10-10 19:22:59', '2019-10-10 06:23:15');
 INSERT INTO `sys_menu` VALUES ('12', '三级菜单', 'nested/menu1/menu1-1', 'menu1-1', '10', 'menu', '0', '0', '2019-10-10 19:25:14', '2019-10-10 06:25:30');
 INSERT INTO `sys_menu` VALUES ('13', '三级菜单1', 'nested/menu1/menu1-2', 'menu1-2', '10', 'menu', '2', '0', '2019-10-10 20:20:50', '2019-10-10 07:21:06');
-INSERT INTO `sys_menu` VALUES ('16', 'SQL监控', 'monitor/sql/index', 'sql', '4', 'sqlMonitor', '0', '0', '2019-10-11 16:55:34', '2019-10-11 03:55:52');
+INSERT INTO `sys_menu` VALUES ('16', 'SQL监控', 'monitor/sql/index', 'sql', '4', 'sqlMonitor', '10', '0', '2019-10-11 16:55:34', '2019-10-11 03:55:52');
 INSERT INTO `sys_menu` VALUES ('17', '权限管理', 'system/permission/index', 'permission', '1', 'permission', '2', '0', '2019-10-12 14:57:24', '2019-10-12 01:57:43');
 INSERT INTO `sys_menu` VALUES ('18', '岗位管理', 'system/job/index', 'job', '1', 'Steve-Jobs', '7', '0', '2019-10-12 16:53:09', '2019-10-12 03:53:28');
 INSERT INTO `sys_menu` VALUES ('19', '字典管理', 'system/dict/index', 'dict', '1', 'dictionary', '10', '0', '2019-10-12 16:54:32', '2019-10-12 03:54:49');
+INSERT INTO `sys_menu` VALUES ('21', '系统工具', '', 'tools', '0', 'sys-tools', '10', '0', '2019-10-21 16:56:54', '2019-10-21 16:56:53');
+INSERT INTO `sys_menu` VALUES ('22', '接口文档', 'tools/swagger/index', 'swagger', '21', 'swagger', '1', '0', '2019-10-21 16:58:24', '2019-10-21 16:58:23');
+INSERT INTO `sys_menu` VALUES ('23', '用户操作日志', 'monitor/logs/index', 'logs', '4', 'log', '1', '0', '2019-10-21 17:14:35', '2019-10-21 17:14:34');
+INSERT INTO `sys_menu` VALUES ('24', '系统异常日志', 'monitor/logs/errorLog', 'errorLog', '4', 'error', '2', '0', '2019-10-21 17:17:05', '2019-10-30 19:42:09');
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -174,18 +191,60 @@ CREATE TABLE `sys_permission` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='权限';
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COMMENT='权限';
 
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
 INSERT INTO `sys_permission` VALUES ('1', '超级管理员', 'SUPER', '0', '0', '2019-09-29 19:03:46', '2019-09-29 19:03:46');
-INSERT INTO `sys_permission` VALUES ('2', '测试', 'TEST', '0', '0', '2019-10-10 11:00:40', '2019-10-10 11:00:40');
 INSERT INTO `sys_permission` VALUES ('3', '用户管理', 'USER_ALL', '0', '0', '2019-10-15 20:17:40', '2019-10-15 20:17:40');
 INSERT INTO `sys_permission` VALUES ('4', '用户查询', 'USER_SELECT', '3', '0', '2019-10-15 20:18:27', '2019-10-15 20:18:27');
-INSERT INTO `sys_permission` VALUES ('5', '用户创建', 'USER_CREATE', '3', '0', '2019-10-15 20:18:27', '2019-10-15 20:18:27');
+INSERT INTO `sys_permission` VALUES ('5', '用户创建', 'USER_SAVE', '3', '0', '2019-10-15 20:18:27', '2019-10-15 20:18:27');
 INSERT INTO `sys_permission` VALUES ('6', '用户编辑', 'USER_EDIT', '3', '0', '2019-10-15 20:18:27', '2019-10-15 20:18:27');
 INSERT INTO `sys_permission` VALUES ('7', '用户删除', 'USER_DELETE', '3', '0', '2019-10-15 20:18:27', '2019-10-15 20:18:27');
+INSERT INTO `sys_permission` VALUES ('8', '部门管理', '', '0', '0', '2019-10-31 19:39:07', '2019-10-31 19:39:08');
+INSERT INTO `sys_permission` VALUES ('9', '字典表', '', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('10', '字典详情', '', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('11', '岗位信息', '', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('12', '系统日志模块', '', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('13', '菜单目录', 'MENU_ALL', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('14', '权限菜单', '', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('15', '角色管理', '', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('16', '用户模块', '', '0', '0', '2019-10-31 19:43:47', '2019-10-31 19:43:47');
+INSERT INTO `sys_permission` VALUES ('17', '部门查询', 'DEPT_ALL', '8', '0', '2019-10-31 19:45:22', '2019-10-31 19:45:22');
+INSERT INTO `sys_permission` VALUES ('18', '部门保存', 'DEPT_SAVE', '8', '0', '2019-10-31 19:45:22', '2019-10-31 19:45:22');
+INSERT INTO `sys_permission` VALUES ('19', '修改部门', 'DEPT_EDIT', '8', '0', '2019-10-31 19:45:22', '2019-10-31 19:45:22');
+INSERT INTO `sys_permission` VALUES ('20', '删除部门', 'DEPT_DELETE', '8', '0', '2019-10-31 19:45:22', '2019-10-31 19:45:22');
+INSERT INTO `sys_permission` VALUES ('21', '字典查询', 'DICT_ALL', '9', '0', '2019-10-31 19:46:19', '2019-10-31 19:46:19');
+INSERT INTO `sys_permission` VALUES ('22', '字典保存', 'DICT_SAVE', '9', '0', '2019-10-31 19:46:19', '2019-10-31 19:46:19');
+INSERT INTO `sys_permission` VALUES ('23', '修改字典', 'DICT_EDIT', '9', '0', '2019-10-31 19:46:19', '2019-10-31 19:46:19');
+INSERT INTO `sys_permission` VALUES ('24', '删除字典', 'DICT_DELETE', '9', '0', '2019-10-31 19:46:19', '2019-10-31 19:46:19');
+INSERT INTO `sys_permission` VALUES ('25', '字典详情查询', 'DICTDETAIL_ALL', '10', '0', '2019-10-31 19:47:13', '2019-10-31 19:47:13');
+INSERT INTO `sys_permission` VALUES ('26', '字典详情保存', 'DICTDETAIL_SAVE', '10', '0', '2019-10-31 19:47:13', '2019-10-31 19:47:13');
+INSERT INTO `sys_permission` VALUES ('27', '修改字典详情', 'DICTDETAIL_EDIT', '10', '0', '2019-10-31 19:47:13', '2019-10-31 19:47:13');
+INSERT INTO `sys_permission` VALUES ('28', '删除字典详情', 'DICTDETAIL_DELETE', '10', '0', '2019-10-31 19:47:13', '2019-10-31 19:47:13');
+INSERT INTO `sys_permission` VALUES ('29', '岗位查询', 'JOB_ALL', '11', '0', '2019-10-31 19:47:59', '2019-10-31 19:47:59');
+INSERT INTO `sys_permission` VALUES ('30', '岗位保存', 'JOB_SAVE', '11', '0', '2019-10-31 19:47:59', '2019-10-31 19:47:59');
+INSERT INTO `sys_permission` VALUES ('31', '修改岗位', 'JOB_EDIT', '11', '0', '2019-10-31 19:47:59', '2019-10-31 19:47:59');
+INSERT INTO `sys_permission` VALUES ('32', '删除岗位', 'JOB_DELETE', '11', '0', '2019-10-31 19:47:59', '2019-10-31 19:47:59');
+INSERT INTO `sys_permission` VALUES ('33', '菜单查询', 'MENU_ALL', '13', '0', '2019-10-31 19:49:30', '2019-10-31 19:49:30');
+INSERT INTO `sys_permission` VALUES ('34', '菜单保存', 'MENU_SAVE', '13', '0', '2019-10-31 19:49:30', '2019-10-31 19:49:30');
+INSERT INTO `sys_permission` VALUES ('35', '修改菜单', 'MENU_EDIT', '13', '0', '2019-10-31 19:49:30', '2019-10-31 19:49:30');
+INSERT INTO `sys_permission` VALUES ('36', '删除菜单', 'MENU_DELETE', '13', '0', '2019-10-31 19:49:30', '2019-10-31 19:49:30');
+INSERT INTO `sys_permission` VALUES ('37', '权限查询', 'PERMISSION_ALL', '14', '0', '2019-10-31 19:50:36', '2019-10-31 19:50:36');
+INSERT INTO `sys_permission` VALUES ('38', '权限保存', 'PERMISSION_SAVE', '14', '0', '2019-10-31 19:50:36', '2019-10-31 19:50:36');
+INSERT INTO `sys_permission` VALUES ('39', '修改权限', 'PERMISSION_EDIT', '14', '0', '2019-10-31 19:50:36', '2019-10-31 19:50:36');
+INSERT INTO `sys_permission` VALUES ('40', '删除权限', 'PERMISSION_DELETE', '14', '0', '2019-10-31 19:50:36', '2019-10-31 19:50:36');
+INSERT INTO `sys_permission` VALUES ('41', '用户查询', 'USER_ALL', '16', '0', '2019-10-31 19:53:09', '2019-10-31 19:53:09');
+INSERT INTO `sys_permission` VALUES ('42', '用户保存', 'USER_SAVE', '16', '0', '2019-10-31 19:53:09', '2019-10-31 19:53:09');
+INSERT INTO `sys_permission` VALUES ('43', '修改用户', 'USER_EDIT', '16', '0', '2019-10-31 19:53:09', '2019-10-31 19:53:09');
+INSERT INTO `sys_permission` VALUES ('44', '删除用户', 'USER_DELETE', '16', '0', '2019-10-31 19:53:09', '2019-10-31 19:53:09');
+INSERT INTO `sys_permission` VALUES ('45', '角色查询', 'ROLE_ALL', '15', '0', '2019-10-31 19:54:26', '2019-10-31 19:54:26');
+INSERT INTO `sys_permission` VALUES ('46', '角色保存', 'ROLE_SAVE', '15', '0', '2019-10-31 19:54:26', '2019-10-31 19:54:26');
+INSERT INTO `sys_permission` VALUES ('47', '修改角色', 'ROLE_EDIT', '15', '0', '2019-10-31 19:54:26', '2019-10-31 19:54:26');
+INSERT INTO `sys_permission` VALUES ('48', '删除角色', 'ROLE_DELETE', '15', '0', '2019-10-31 19:54:26', '2019-10-31 19:54:26');
+INSERT INTO `sys_permission` VALUES ('49', '系统日志模块', 'LOG_ALL', '12', '0', '2019-10-31 19:55:55', '2019-10-31 19:55:55');
+INSERT INTO `sys_permission` VALUES ('50', '异常日志', 'LOG_ERROR_ALL', '12', '0', '2019-10-31 19:55:55', '2019-10-31 19:55:55');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -220,7 +279,7 @@ CREATE TABLE `sys_role_menu` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COMMENT='角色与菜单关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 COMMENT='角色与菜单关系表';
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -250,6 +309,10 @@ INSERT INTO `sys_role_menu` VALUES ('90', '4', '9', '2019-10-17 19:56:05', '2019
 INSERT INTO `sys_role_menu` VALUES ('91', '4', '10', '2019-10-17 19:56:05', '2019-10-17 19:56:02');
 INSERT INTO `sys_role_menu` VALUES ('92', '4', '12', '2019-10-17 19:56:05', '2019-10-17 19:56:02');
 INSERT INTO `sys_role_menu` VALUES ('93', '4', '13', '2019-10-17 19:56:05', '2019-10-17 19:56:02');
+INSERT INTO `sys_role_menu` VALUES ('94', '1', '21', '2019-10-21 16:56:54', '2019-10-21 16:56:53');
+INSERT INTO `sys_role_menu` VALUES ('95', '1', '22', '2019-10-21 16:58:24', '2019-10-21 16:58:23');
+INSERT INTO `sys_role_menu` VALUES ('96', '1', '23', '2019-10-21 17:14:35', '2019-10-21 17:14:34');
+INSERT INTO `sys_role_menu` VALUES ('97', '1', '24', '2019-10-21 17:17:05', '2019-10-21 17:17:04');
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -319,21 +382,3 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('1', '1', '1', '2019-09-20 19:26:40', '2019-09-20 19:26:40');
 INSERT INTO `sys_user_role` VALUES ('2', '2', '2', '2019-09-20 23:06:05', '2019-09-20 23:06:05');
-
-
-CREATE TABLE `sys_log` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `username` varchar(255) DEFAULT NULL COMMENT '操作用户',
-  `description` varchar(255) DEFAULT NULL COMMENT '方法描述',
-  `exception_detail` text COMMENT '异常描述',
-  `method` varchar(255) DEFAULT NULL COMMENT '请求方法名',
-  `params` text COMMENT '请求参数',
-  `log_type` tinyint(1) DEFAULT '0' COMMENT '日志类型(0 系统日志 1 异常日志)',
-  `request_ip` varchar(255) DEFAULT NULL COMMENT '请求ip',
-  `time` bigint(20) NOT NULL COMMENT '执行时长(毫秒)',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '软删除标识(0 有效 1 已删除)',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统日志表';
-
