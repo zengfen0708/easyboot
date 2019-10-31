@@ -37,7 +37,7 @@ public class JobController {
 
     @SysLog(value = "获取岗位列表信息")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','JOB_ALL','JOB_ALL')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_ALL')")
     @ApiOperation("获取岗位列表信息")
     public ApiMessage list(@RequestBody JobSearchVo jobSearchVo) {
         Map<String, Object> params = BeanCopierUtils.object2Map(jobSearchVo);
@@ -48,7 +48,7 @@ public class JobController {
 
     @SysLog(value = "根据部门id搜索对应的岗位")
     @RequestMapping(value = "/getAllJob", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('SUPER','JOB_ALL','JOB_ALL')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_ALL')")
     @ApiOperation("根据部门id搜索对应的岗位")
     public ApiMessage getAllJob(@RequestParam Long deptId) {
         List<JobEntity> list = Lists.newArrayList();
@@ -64,7 +64,7 @@ public class JobController {
      */
     @SysLog(value = "保存权限菜单")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','JOB_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','JOB_SAVE')")
     @ApiOperation("保存权限菜单")
     public ApiMessage save(@RequestBody JobEntity jobEntity) {
         jobService.save(jobEntity);

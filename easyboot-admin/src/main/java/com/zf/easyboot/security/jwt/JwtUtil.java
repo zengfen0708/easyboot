@@ -66,6 +66,11 @@ public class JwtUtil {
         // 将生成的JWT保存至Redis(设置超时时间为毫秒)
 
         redisUtils.set(jwtConfig.getJwtRedisKey() + subject, jwt, expirationTime);
+
+        //重新登录必须删除用户角色有关信息
+        String key = jwtConfig.getJwtRedisKey() + "userDetails:" + subject;
+        redisUtils.delete(key);
+
         return jwt;
     }
 
@@ -150,6 +155,12 @@ public class JwtUtil {
 
         //从redis中删除jwt
         redisUtils.delete(jwtConfig.getJwtRedisKey() + username);
+
+        //删除用户权限
+        String key = jwtConfig.getJwtRedisKey() + "userDetails:" + username;
+        redisUtils.delete(key);
+
+
     }
 
 

@@ -61,7 +61,7 @@ public class PermissionController {
      */
     @SysLog("保存权限菜单")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','PERMISSION_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','PERMISSION_SAVE')")
     @ApiOperation("保存权限菜单")
     public ApiMessage save(@RequestBody PermissionEntity permissionEntity) {
         permissionService.save(permissionEntity);

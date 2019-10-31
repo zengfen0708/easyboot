@@ -30,6 +30,10 @@ spring:
   cache:
     # 一般来说是不用配置的，Spring Cache 会根据依赖的包自行装配
     type: redis
+    cache-names:  easyboot
+    redis:
+      time-to-live: 200s
+      cache-null-values: false
 #安全域名配置
 base:
     corsList:

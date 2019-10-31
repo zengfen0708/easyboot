@@ -41,7 +41,6 @@ public class RoleController {
         Map<String, Object> params = BeanCopierUtils.object2Map(roleSearchVo);
         PageUtils page = roleService.queryList(params);
         return ApiMessage.ofSuccess(page);
-
     }
 
     @SysLog("不分页获取全部角色信息")
@@ -56,7 +55,7 @@ public class RoleController {
 
     @SysLog("根据id重新加载信息")
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('SUPER','ROLE_SAVE')")
+    @PreAuthorize("hasAnyRole('SUPER','ROLE_ALL')")
     public  ApiMessage info(@PathVariable Long id){
         RoleVo roleVo=roleService.findByRoleIdInfo(id);
         return ApiMessage.ofSuccess(roleVo);
@@ -64,7 +63,7 @@ public class RoleController {
 
     @SysLog("根据用户id查新角色信息")
     @RequestMapping(value = "/getRoleById/{userId}", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('SUPER','ROLE_SAVE')")
+    @PreAuthorize("hasAnyRole('SUPER','ROLE_ALL')")
     public  ApiMessage getRoleById(@PathVariable Long userId){
         List<RoleVo> list=roleService.getRoleById(userId);
         return ApiMessage.ofSuccess(list);
@@ -74,7 +73,7 @@ public class RoleController {
      */
     @SysLog("保存角色表")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','ROLE_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','ROLE_SAVE')")
     @ApiOperation("保存角色表")
     public ApiMessage save(@RequestBody RoleEntity roleEntity) {
         roleService.save(roleEntity);

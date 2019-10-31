@@ -47,7 +47,6 @@ public class MenuController {
     @PreAuthorize("hasAnyRole('SUPER','MENU_ALL')")
     @ApiOperation(value = "初始化导航菜单",notes = "初始化导航菜单")
     public ApiMessage buildMenus() {
-
         //获取当前系统的用户
         JwtUser jwtUser = SecurityUtil.getCurrentUser();
 
@@ -89,7 +88,7 @@ public class MenuController {
 
     @SysLog(value = "新增菜单")
     @PostMapping(value = "/save")
-    @PreAuthorize("hasAnyRole('SUPER','MENU_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','MENU_SAVE')")
     public ApiMessage save(@Validated @RequestBody MenuEntity menuEntity) {
         ApiMessage r = menuService.saveMenuInfo(menuEntity);
 

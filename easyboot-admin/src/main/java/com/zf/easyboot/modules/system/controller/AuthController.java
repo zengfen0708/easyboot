@@ -20,6 +20,7 @@ import com.zf.easyboot.security.utils.ImgResult;
 import com.zf.easyboot.security.utils.SecurityUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -77,7 +78,7 @@ public class AuthController {
     })
     public ApiMessage<String> login(@RequestBody LoginRequestVo loginRequest) {
 
-        String username = loginRequest.getUsername();
+        String username =StringUtils.lowerCase(loginRequest.getUsername());
         String password = loginRequest.getPassword();
 
         String uuid = loginRequest.getUuid();

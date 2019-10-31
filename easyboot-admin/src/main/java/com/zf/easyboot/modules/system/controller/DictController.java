@@ -70,7 +70,7 @@ public class DictController {
      */
     @SysLog("保存字典表")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICT_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','DICT_SAVE')")
     @ApiOperation("保存字典表")
     public ApiMessage save(@RequestBody DictEntity dictEntity) {
         dictService.save(dictEntity);

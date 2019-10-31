@@ -17,6 +17,8 @@ import com.zf.easyboot.modules.system.mapper.DictMapper;
 import com.zf.easyboot.modules.system.service.DictDetailService;
 import com.zf.easyboot.modules.system.service.DictService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;

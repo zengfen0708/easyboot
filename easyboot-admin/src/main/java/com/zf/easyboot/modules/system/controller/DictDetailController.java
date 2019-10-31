@@ -101,7 +101,7 @@ public class DictDetailController {
      * 保存
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','DICTDETAIL_SAVE')")
     @ApiOperation("保存字典详情数据")
     public ApiMessage save(@RequestBody DictDetailEntity dictDetailEntity) {
         dictDetailService.save(dictDetailEntity);

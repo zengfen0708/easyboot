@@ -68,7 +68,7 @@ public class DeptController {
      */
     @SysLog(value = "保存部门数据")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SUPER','DEPT_CREATE')")
+    @PreAuthorize("hasAnyRole('SUPER','DEPT_SAVE')")
     @ApiOperation("保存部门数据")
     public ApiMessage save(@RequestBody DeptEntity deptEntity) {
         deptService.save(deptEntity);

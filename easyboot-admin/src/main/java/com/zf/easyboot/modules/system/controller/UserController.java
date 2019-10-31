@@ -121,8 +121,8 @@ public class UserController {
      */
     @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SUPER','USER_EXPORTEXCEL')")
-    @ApiOperation("字典表批量导出")
-    @SysLog("字典表批量导出")
+    @ApiOperation("用户表批量导出")
+    @SysLog("用户表批量导出")
     public void exportExcel(@RequestBody UserSearchVo userSearchVo, HttpServletResponse response) throws IOException {
         Map<String, Object> params = BeanCopierUtils.object2Map(userSearchVo);
         List<UserEntity> list = userService.exportExcel(params);
