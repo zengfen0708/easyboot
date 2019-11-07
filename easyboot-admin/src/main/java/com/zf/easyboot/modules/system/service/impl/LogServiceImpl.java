@@ -28,7 +28,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, LogEntity> implements
      */
     @Override
     @Transactional
-    @Async("taskExecutor")
+    @Async("easyboot_taskExecutor")
     public void saveLog(LogEntity logEntity) {
         baseMapper.insert(logEntity);
     }
