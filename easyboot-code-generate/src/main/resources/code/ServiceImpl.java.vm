@@ -1,0 +1,121 @@
+package ${package}.modules.${moduleName}.service.impl;
+
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zf.easyboot.common.constant.CommonConstant;
+import com.zf.easyboot.common.enums.HttpStatus;
+import com.zf.easyboot.common.utils.ApiMessage;
+import com.zf.easyboot.common.utils.BeanCopierUtils;
+import com.zf.easyboot.common.utils.ConverterConstant;
+import com.zf.easyboot.common.utils.PageUtils;
+import ${package}.modules.${moduleName}.entity.${className}Entity;
+import ${package}.modules.${moduleName}.excel.${className}ExcelVo;
+import ${package}.modules.${moduleName}.mapper.${className}Mapper;
+import ${package}.modules.${moduleName}.service.${className}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+
+@Slf4j
+@Service("${classname}Service")
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements ${className}Service {
+
+
+
+    /**
+     * 分页查询信息
+     * @param params 请求对象
+     * @return
+     */
+    @Override
+    public PageUtils queryList(Map<String, Object> params) {
+        Integer currPage = ConverterConstant.converterPageInfo.convert(params.get("page"));
+        Integer pageSize = ConverterConstant.converterPageInfo.convert(params.get("size"));
+        //当前查询页码
+        currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
+        //分页大小
+        pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
+        Integer startPage = currPage == 0 ? currPage * pageSize : (currPage - 1) * pageSize;
+
+        List<${className}Entity> list = baseMapper.queryList(startPage, pageSize, params);
+        Integer totalCount = baseMapper.queryListTotal(params);
+        PageUtils page = new PageUtils(list, totalCount, pageSize, currPage);
+
+        return page;
+    }
+
+
+    /**
+     * 导入excel数据
+     *
+     * @param filePath 文件地址
+     * @return
+     */
+    @Override
+    public ApiMessage importExcelData(String filePath) {
+        ImportParams params = new ImportParams();
+        params.setHeadRows(CommonConstant.EXCELHEADROWS);//设置读取的开始行
+
+        //读取excel文件
+        List<${className}ExcelVo> excelList = ExcelImportUtil.importExcel(
+                new File(filePath), ${className}ExcelVo.class, params);
+
+        if (!CollectionUtils.isEmpty(excelList)) {
+            // 多线程问题
+            List<${className}Entity> list = excelList.parallelStream()
+                    .map(item -> makeEntity(item)).collect(Collectors.toList());
+            super.saveBatch(list, CommonConstant.SQLBATCHNUM);
+            list.clear();  //清空list,提前gc
+            excelList.clear(); //清空list,提前gc
+            return ApiMessage.ofSuccess();
+        }
+
+        return ApiMessage.putHttpStatus(HttpStatus.FILE_IMPORT_ERROR);
+    }
+
+    /**
+     * 导出excel数据
+     *
+     * @param params 请求参数
+     * @return
+     */
+    @Override
+    public List<${className}ExcelVo> exportExcel(Map<String, Object> params) {
+
+        return baseMapper.exportExcel(params);
+    }
+
+
+    /**
+     * 删除数据
+     * @param id 请求id
+     */
+    @Override
+    @Transactional
+    public void deleteById(${pk.attrType} ${pk.lowerAttrName}) {
+       ${className}Entity entity = new ${className}Entity();
+        entity.setDeleted(CommonConstant.INVALIDDELETE);
+        baseMapper.update(entity, new QueryWrapper<${className}Entity>().eq("id", ${pk.lowerAttrName}));
+    }
+
+    /**
+     * 构造数据库实体对象
+     * @param excelVo
+     * @return
+     */
+    private ${className}Entity makeEntity(${className}ExcelVo excelVo) {
+        ${className}Entity entity = new ${className}Entity();
+        BeanCopierUtils.copyProperties(excelVo, entity);
+        return entity;
+    }
+}

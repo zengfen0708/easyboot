@@ -1,0 +1,162 @@
+<template>
+    <div class="app-container">
+    <!--表单组件-->
+    <eForm ref="form" :is-add="isAdd" />
+    <upload-component ref="uploadForm" :on-success="handleSuccess" :file-name="downFileName" :file-url="downFileUrl" />
+    <!--工具栏-->
+    <div class="head-container">
+        <!-- 搜索 -->
+        <el-input v-model="query.value" clearable placeholder="查询值" style="width: 200px;" class="filter-item" @keyup.enter.native="toQuery" />
+        <el-button class="filter-item" size="mini" type="success" icon="el-icon-search" @click="toQuery">搜索</el-button>
+        <!-- 新增 -->
+        <div v-permission="['SUPER','${roleName}_ALL','${roleName}_CREATE']" style="display: inline-block;margin: 0px 2px;">
+            <el-button
+                    class="filter-item"
+                    size="mini"
+                    type="primary"
+                    icon="el-icon-plus"
+                    @click="add"
+            >新增</el-button>
+        </div>
+        <!-- 批量导入 -->
+        <el-button
+                v-permission="['SUPER','${roleName}_IMPORTEXCEL']"
+                size="mini"
+                type="primary"
+                class="filter-item"
+                icon="el-icon-upload"
+                @click="$refs.uploadForm.dialog = true;"
+        >批量导入
+        </el-button>
+        <!-- 导出 -->
+        <div style="display: inline-block;">
+            <el-button
+                    v-permission="['SUPER','${roleName}_EXPORTEXCEL']"
+                    :loading="downloadLoading"
+                    size="mini"
+                    class="filter-item"
+                    type="warning"
+                    icon="el-icon-download"
+                    @click="downloadFile(ZFExportfileName)"
+            >导出</el-button>
+        </div>
+    </div>
+        <el-table
+                :data="data"
+                border
+                height="580"
+                style="width: 100%;">
+            <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
+            <el-table-column type="index"   header-align="center" align="center" width="50"  label="编号"/>
+            #foreach($column in $columns)
+                #if(!($column.lowerAttrName=='updateTime'or $column.lowerAttrName=='createTime'or $column.lowerAttrName=='deleted'or $column.columnName == $pk.columnName))
+                    <el-table-column prop="${column.lowerAttrName}" header-align="center" align="center" label="${column.comments}"></el-table-column>
+                #end
+            #end
+            <el-table-column v-if="checkPermission(['SUPER'])" label="操作" width="125" align="center">
+                <template slot-scope="scope">
+                    <el-button v-permission="['SUPER']" size="mini" type="primary" icon="el-icon-edit" @click="edit(scope.row)" />
+                    <el-popover
+                            :ref="scope.row.id"
+                            v-permission="['SUPER']"
+                            placement="top"
+                            width="180"
+                    >
+                        <p>确定删除本条数据吗？</p>
+                        <div style="text-align: right; margin: 0">
+                            <el-button size="mini" type="text" @click="${vueCancel}">取消</el-button>
+                            <el-button :loading="delLoading" type="primary" size="mini" @click="subDelete(scope.row.id)">确定</el-button>
+                        </div>
+                        <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" />
+                    </el-popover>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination
+                :current-page="page + 1"
+                :total="total"
+                layout="total, sizes, prev, pager, next, jumper"
+                @size-change="sizeChange"
+                @current-change="pageChange">
+
+        </el-pagination>
+    </div>
+</template>
+
+<script>
+    import initData from '@/mixins/initData'
+    import { del } from '@/api/${moduleName}/${pathName}'
+    import eForm from './form'
+    export default {
+        components: { eForm },
+        mixins: [initData],
+        data() {
+            return {
+                ZFExportfileName: '${comments}.xlsx',
+                downFileName: '${comments}.xlsx',
+                downFileUrl: '${moduleName}/${pathName}/importExcel',
+                delLoading: false,
+                downloadLoading: false
+            }
+        },
+        created() {
+            this.$nextTick(() => {
+                this.init()
+        })
+        },
+        methods: {
+            beforeInit() {
+                this.exportUrl = '/${moduleName}/${pathName}/exportExcel'
+                this.url = '/${moduleName}/${pathName}/list'
+                this.params = { page: this.page, size: this.size }
+                this.query.logType = 0
+                const query = this.query
+                if (query) {
+                    // 对象合并
+                    Object.assign(this.params, query)
+                }
+                return true
+            },
+            add() {
+                this.isAdd = true
+                this.$refs.form.dialog = true
+            },
+            subDelete(id) {
+                this.delLoading = true
+                del(id).then(res => {
+                    this.delLoading = false
+                ${vue1}
+                this.dleChangePage()
+                this.init()
+                this.$notify({
+                    title: '删除成功',
+                    type: 'success',
+                    duration: 2500
+                })
+            }).catch(err => {
+                    this.delLoading = false
+                ${vue1}
+                console.log(err.response.message)
+            })
+            },
+            // 文件上传成功
+            handleSuccess() {
+               this.toQuery();
+            },
+            edit(data) {
+                this.isAdd = false
+                const _this = this.$refs.form
+                        _this.deptIds = []
+                _this.form = {
+                #foreach($column in $columns)
+                    #if(!($column.lowerAttrName=='updateTime'or $column.lowerAttrName=='createTime'or $column.lowerAttrName=='deleted'or $column.columnName == $pk.columnName))
+                    ${column.lowerAttrName}: data.${column.lowerAttrName},
+                    #end
+                #end
+                    id: data.id
+                }
+                _this.dialog = true
+            }
+        }
+    }
+</script>

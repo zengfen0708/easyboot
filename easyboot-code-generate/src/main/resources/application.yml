@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /easyboot-gen
+spring:
+  thymeleaf:
+    cache: false  #是否启用模板缓存
+  mvc:
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /static/**
+easyboot:
+  mysql:
+   url: localhost:3306/simple_data
+   username: simple
+   password: Simple@0708

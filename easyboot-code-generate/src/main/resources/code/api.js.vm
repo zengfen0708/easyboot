@@ -1,0 +1,36 @@
+import request from '@/utils/request'
+
+/**
+ * 增加${comments}
+ * @param query 分页查询条件
+ */
+export function add(data) {
+    return request({
+        url: '/${moduleName}/${pathName}/save',
+        method: 'post',
+        data
+    })
+}
+
+/**
+ * 删除
+ * @param id
+ */
+export function del(id) {
+    return request({
+        url: '/${moduleName}/${pathName}/delete/' + id,
+        method: 'post'
+    })
+}
+
+/**
+ * 修改
+ * @param data
+ */
+export function edit(data) {
+    return request({
+        url: '${moduleName}/${pathName}/update',
+        method: 'post',
+        data
+    })
+}

@@ -1,0 +1,40 @@
+package ${package}.modules.${moduleName}.vo;
+
+import com.zf.easyboot.modules.system.vo.PageInfoVo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import java.util.Date;
+
+#if(${hasBigDecimal})
+        import java.math.BigDecimal;
+#end
+/**
+ * 查询${comments}对象
+ *
+ * @author ${author}
+ * @email zengms0708@gmail.com
+ * @date ${datetime}
+ */
+@Data
+@ApiModel(value="查询${comments}",description = "查询${comments}实体对象")
+public class ${className}SearchVo extends PageInfoVo  {
+    private static final long serialVersionUID = 1L;
+
+
+  #foreach ($column in $columns)
+
+    #if(!($column.lowerAttrName=='updateTime' or $column.lowerAttrName=='deleted'
+    or $column.lowerAttrName=='expand'  or $column.lowerAttrName=='expand1'  or $column.lowerAttrName=='expand2'
+    or $column.columnName == $pk.columnName))
+        /**
+         * 设置：${column.comments}
+         */
+        @ApiModelProperty(value = "${column.comments}")
+        private $column.attrType $column.lowerAttrName;
+    #end
+  #end
+
+
+
+}

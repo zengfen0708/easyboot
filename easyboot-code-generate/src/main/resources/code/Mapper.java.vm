@@ -1,0 +1,48 @@
+package ${package}.modules.${moduleName}.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zf.easyboot.modules.system.entity.DeptEntity;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
+import java.util.Map;
+
+import ${package}.modules.${moduleName}.entity.${className}Entity;
+import ${package}.modules.${moduleName}.excel.${className}ExcelVo;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email zengms0708@gmail.com
+ * @date ${datetime}
+ */
+public interface ${className}Mapper extends BaseMapper<${className}Entity> {
+
+    /**
+        * 查询汇总数据
+        * @param startPage 开始
+        * @param pageSize  分页大小
+        * @param params 请求参数
+        * @return 分页对象集合
+        */
+    List<${className}Entity> queryList(@Param("startPage") Integer startPage,
+                               @Param("pageSize") Integer pageSize,
+                               @Param("params") Map<String, Object> params);
+
+    /**
+     *  查询汇总数据
+     * @param params 请求参数
+     * @return
+     */
+    Integer queryListTotal(@Param("params") Map<String, Object> params);
+
+
+
+    /**
+     * 导出excel
+     * @param params
+     * @return
+     */
+    List<${className}ExcelVo> exportExcel(@Param("params") Map<String,Object> params);
+
+}

@@ -1,0 +1,51 @@
+package ${package}.modules.${moduleName}.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.zf.easyboot.common.utils.ApiMessage;
+import com.zf.easyboot.common.utils.PageUtils;
+import ${package}.modules.${moduleName}.entity.${className}Entity;
+import ${package}.modules.${moduleName}.excel.${className}ExcelVo;
+
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email zengms0708@gmail.com
+ * @date ${datetime}
+ */
+public interface ${className}Service extends IService<${className}Entity> {
+
+    /**
+      * 查询分页数据
+      * @param params
+      * @return
+      */
+    PageUtils queryList(Map<String,Object> params);
+
+
+    /**
+     * 导入excel数据
+     * @param filePath 文件目录
+     * @return
+     */
+    ApiMessage importExcelData(String filePath);
+
+    /**
+     * 导出excel数据
+     * @param params 请求参数
+     * @return
+     */
+    List<${className}ExcelVo> exportExcel(Map<String,Object> params);
+
+
+
+    /**
+     * 删除数据
+     * @param id
+     */
+    void deleteById(${pk.attrType} ${pk.lowerAttrName});
+}

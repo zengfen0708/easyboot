@@ -1,0 +1,40 @@
+
+
+-- 删除菜单权限
+
+delete from sys_role_menu where menu_id in  (select id from  sys_menu  where menu_name='${comments}')
+
+-- 删除菜单
+
+delete from sys_menu  where menu_name='${comments}';
+
+-- 删除权限表信息
+
+delete from  sys_permission  where id=(select id from (select  tmp.id   from sys_permission tmp where alias='${comments}') a)
+  or parent_id=(select id from (select  tmp.id  from sys_permission tmp where alias='${comments}') a)
+
+
+
+-- 菜单SQL
+INSERT INTO `sys_menu` (`parent_id`, `menu_name`, `component`, `icon`, `sort`,path)
+    VALUES ('0', '${comments}', '${moduleName}/${pathName}',  'dev', '6','${pathName}');
+set @parentId = @@identity;
+
+-- 插入权限菜单表
+insert into sys_role_menu(role_id,menu_id)
+values(1,@@identity)
+
+-- 插入权限表
+INSERT INTO `sys_permission` (`parent_id`, `alias`, `name`)
+    VALUES ('0', '${comments}', '');
+-- 按钮父菜单ID
+set @parentId = @@identity;
+
+-- 菜单对应按钮SQL
+INSERT INTO `sys_permission` (`parent_id`, `alias`, `name`)
+    values( @parentId, '${comments}查询','${roleName}_ALL'),
+        ( @parentId, '${comments}保存','${roleName}_SAVE'),
+        ( @parentId, '${comments}编辑','${roleName}_EDIT'),
+        ( @parentId, '${comments}删除','${roleName}_DELETE'),
+        ( @parentId, '${comments}导入','${roleName}_IMPORTEXCEL'),
+        ( @parentId, '${comments}导出','${roleName}_EXPORTEXCEL')
