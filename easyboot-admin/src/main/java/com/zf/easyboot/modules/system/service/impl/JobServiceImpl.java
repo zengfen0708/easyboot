@@ -14,6 +14,7 @@ import com.zf.easyboot.modules.system.vo.JobVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -38,8 +39,8 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
      */
     @Override
     public PageUtils queryList(Map<String, Object> params) {
-        Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
-        Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
+        Integer currPage = ConverterConstant.converterPageInfo.convert(params.get("page"));
+        Integer pageSize = ConverterConstant.converterPageInfo.convert(params.get("size"));
         currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
         pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
         Integer startPage = currPage == 0 ? currPage * pageSize : (currPage - 1) * pageSize;
@@ -75,6 +76,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
      * @param id
      */
     @Override
+    @Transactional
     public void deleteById(Long id) {
 
         JobEntity jobEntity=new JobEntity();

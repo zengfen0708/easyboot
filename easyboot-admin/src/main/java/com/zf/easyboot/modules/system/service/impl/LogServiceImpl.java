@@ -35,8 +35,8 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, LogEntity> implements
 
     @Override
     public PageUtils queryList(Map<String, Object> params) {
-        Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
-        Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
+        Integer currPage = ConverterConstant.converterPageInfo.convert(params.get("page"));
+        Integer pageSize = ConverterConstant.converterPageInfo.convert(params.get("size"));
         if (currPage == null) {
             currPage = CommonConstant.DEFAULT_PAGE;
         }

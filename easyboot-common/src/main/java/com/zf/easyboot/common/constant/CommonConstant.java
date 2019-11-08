@@ -73,4 +73,9 @@ public interface CommonConstant {
      */
     Integer EXCELHEADROWS = 1;
 
+
+    /**
+     * 设置分页最大大小
+     */
+    Integer PAGESIZE=10000;
 }

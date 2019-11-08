@@ -28,6 +28,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -54,15 +55,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
      */
     @Override
     public PageUtils queryList(Map<String, Object> params) {
-        Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
-        Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
-        if (currPage == null) {
-            currPage = CommonConstant.DEFAULT_PAGE;
-        }
+        Integer currPage = ConverterConstant.converterPageInfo.convert(params.get("page"));
+        Integer pageSize = ConverterConstant.converterPageInfo.convert(params.get("size"));
+        //当前查询页码
+        currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
+        //分页大小
+        pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
 
-        if (pageSize == null) {
-            pageSize = CommonConstant.DEFAULT_PAGE_SIZE;
-        }
         Integer startPage = currPage == 0 ? currPage * pageSize : (currPage - 1) * pageSize;
 
         List<UserVo> list = baseMapper.queryList(startPage, pageSize, params);

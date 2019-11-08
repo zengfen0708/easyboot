@@ -32,8 +32,8 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, DeptEntity> impleme
 
     @Override
     public PageUtils queryList(Map<String, Object> params) {
-        Integer currPage = ConverterConstant.converterInt.convert(params.get("page"));
-        Integer pageSize = ConverterConstant.converterInt.convert(params.get("size"));
+        Integer currPage = ConverterConstant.converterPageInfo.convert(params.get("page"));
+        Integer pageSize = ConverterConstant.converterPageInfo.convert(params.get("size"));
         currPage = Optional.ofNullable(currPage).orElse(CommonConstant.DEFAULT_PAGE);
         pageSize = Optional.ofNullable(pageSize).orElse(CommonConstant.DEFAULT_PAGE_SIZE);
 

@@ -24,11 +24,11 @@ import java.util.Optional;
 @Slf4j
 public class DateUtil {
 
-    public String PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
-    public String PATTERN_DATE = "yyyy-MM-dd";
-    public String PATTERN_TIME = "HH:mm:ss";
+    public String PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss" ;
+    public String PATTERN_DATE = "yyyy-MM-dd" ;
+    public String PATTERN_TIME = "HH:mm:ss" ;
 
-    public String DATE_PATTERN = "yyyyMMdd";
+    public String DATE_PATTERN = "yyyyMMdd" ;
 
 
     /**

@@ -67,6 +67,9 @@ public enum HttpStatus {
      */
     USER_DISABLED(403, "当前用户已被锁定，请联系管理员解锁！"),
 
+    PAGE_ERROR(10000,"分页参数异常,请核实"),
+
+
     /**
      * 用户名或密码错误！
      */
