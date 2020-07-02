@@ -27,7 +27,7 @@
         <!--hutool工具类-->
         <hutool.version>5.0.3</hutool.version>
         <guava.version>28.1-jre</guava.version>
-        <mysql.version>8.0.13</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <knife4j.version>1.9.6</knife4j.version>
         <jjwt.veersion>0.9.1</jjwt.veersion>
         <!-- 打包跳过单元测试 -->
